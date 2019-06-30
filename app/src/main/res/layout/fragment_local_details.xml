@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/app_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/section_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Section 2"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="8dp"
+            tools:context=".view.gtl.GlobalDetailsFragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toilet_loc_at"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_toilet_location"
+                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:entries="@array/toilet_location" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edt_located_at_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/other"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!--<android.support.design.widget.TextInputLayout-->
+                <!--android:id="@+id/edt_maintenance_authority"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
+
+                <!--<android.support.design.widget.TextInputEditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="@string/maintenance_authority"-->
+                <!--android:inputType="text"-->
+                <!--android:maxLines="1" />-->
+                <!--</android.support.design.widget.TextInputLayout>-->
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/maintenance_authority"
+                    android:textSize="14sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_toilet_maintenance_auth"
+                    style="@style/Base.TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:entries="@array/responsible_org" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edt_maintaining_auth_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/other"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edt_caretaker_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/caretaker_name"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edt_caretaker_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/caretaker_phone"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/edt_seat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/seat"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/label_open_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/open_days"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/all_days_selected"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="Sunday"
+                        android:textSize="@dimen/text_18" />
+
+                    <TextView
+                        android:id="@+id/sunday"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/custom_checkbox" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sunday"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Monday"
+                        android:textSize="@dimen/text_18" />
+
+                    <TextView
+                        android:id="@+id/monday"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/sunday"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_checkbox"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/monday"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Tuesday"
+                        android:textSize="@dimen/text_18" />
+
+                    <TextView
+                        android:id="@+id/tuesday"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/monday"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_checkbox"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tuesday"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Wednesday"
+                        android:textSize="@dimen/text_18" />
+
+                    <TextView
+                        android:id="@+id/wednesday"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/tuesday"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_checkbox"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/wednesday"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Thursday"
+                        android:textSize="@dimen/text_18" />
+
+                    <TextView
+                        android:id="@+id/thursday"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/wednesday"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_checkbox"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/thursday"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Friday"
+                        android:textSize="@dimen/text_18" />
+
+                    <TextView
+                        android:id="@+id/friday"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/thursday"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_checkbox"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/friday"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Saturday"
+                        android:textSize="@dimen/text_18" />
+
+                    <TextView
+                        android:id="@+id/saturday"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_below="@+id/friday"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/custom_checkbox"
+                        android:gravity="center" />
+                </RelativeLayout>
+
+                <!--<HorizontalScrollView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:fillViewport="true">-->
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--android:paddingTop="10dp">-->
+
+                <!---->
+                <!--<TextView-->
+                <!--android:id="@+id/sunday"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="43dp"-->
+                <!--android:layout_marginRight="3dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/custom_checkbox"-->
+                <!--android:gravity="center"-->
+                <!--android:text="S"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/days_text_size"-->
+                <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/monday"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="43dp"-->
+                <!--android:layout_marginRight="3dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/days_selector"-->
+                <!--android:gravity="center"-->
+                <!--android:text="M"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/days_text_size"-->
+                <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/tuesday"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="43dp"-->
+                <!--android:layout_marginRight="3dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/days_selector"-->
+                <!--android:gravity="center"-->
+                <!--android:text="T"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/days_text_size"-->
+                <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/wednesday"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="43dp"-->
+                <!--android:layout_marginRight="3dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/days_selector"-->
+                <!--android:gravity="center"-->
+                <!--android:text="W"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/days_text_size"-->
+                <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/thursday"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="43dp"-->
+                <!--android:layout_marginRight="3dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/days_selector"-->
+                <!--android:gravity="center"-->
+                <!--android:text="T"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/days_text_size"-->
+                <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/friday"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="43dp"-->
+                <!--android:layout_marginRight="3dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/days_selector"-->
+                <!--android:gravity="center"-->
+                <!--android:text="F"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/days_text_size"-->
+                <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/saturday"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="43dp"-->
+                <!--android:layout_marginRight="3dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/days_selector"-->
+                <!--android:gravity="center"-->
+                <!--android:text="S"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="@dimen/days_text_size"-->
+                <!--android:textStyle="bold" />-->
+                <!--</LinearLayout>-->
+                <!--</HorizontalScrollView>-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_opening_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Spinner
+                            android:id="@+id/spinner_opening_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/time_list" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_closing_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Spinner
+                            android:id="@+id/spinner_closing_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/time_list" />
+                    </LinearLayout>
+
+                    <!--<android.support.design.widget.TextInputLayout-->
+                    <!--android:id="@+id/edt_opening_time"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginRight="5dp"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<android.support.design.widget.TextInputEditText-->
+                    <!--android:id="@+id/opening_edit_text"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:clickable="false"-->
+                    <!--android:focusable="false"-->
+                    <!--android:focusableInTouchMode="false"-->
+                    <!--android:longClickable="false" />-->
+                    <!--</android.support.design.widget.TextInputLayout>-->
+
+                    <!--<android.support.design.widget.TextInputLayout-->
+                    <!--android:id="@+id/edt_closing_time"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5dp"-->
+                    <!--android:layout_weight="1">-->
+
+                    <!--<android.support.design.widget.TextInputEditText-->
+                    <!--android:id="@+id/closing_edit_text"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:clickable="false"-->
+                    <!--android:focusable="false"-->
+                    <!--android:focusableInTouchMode="false"-->
+                    <!--android:longClickable="false" />-->
+                    <!--</android.support.design.widget.TextInputLayout>-->
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:entries="@array/gender" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Facilities"
+                    android:textSize="20sp" />
+
+                <CheckBox
+                    android:id="@+id/child_friendly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Child-Friendly"
+                    android:textSize="16sp" />
+
+                <CheckBox
+                    android:id="@+id/differently_abled_friendly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Differently Abled Friendly"
+                    android:textSize="16sp" />
+
+                <CheckBox
+                    android:id="@+id/availablity_of_water_atm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Availablity Of Water Atm"
+                    android:textSize="16sp" />
+
+                <CheckBox
+                    android:id="@+id/availability_of_sanitory_napkin_machine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Availability Of Sanitory Napkin Machine"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <CheckBox
+                    android:id="@+id/availability_of_incinerator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Availability Of Incinerator"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/fee"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_weight="1"
+                        android:entries="@array/fee" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/edt_cost"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:visibility="gone">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/cost"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:maxLines="1" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentLeft="true"
+                        android:background="@drawable/days_selected"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/left_arrow" />
+
+                    <ImageView
+                        android:id="@+id/btn_next"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/days_selected"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/right_arrow" />
+                </RelativeLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

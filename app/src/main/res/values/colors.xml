@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#19a74f</color>
+    <color name="colorPrimaryTransparent">#4F0AFF69</color>
+    <color name="colorPrimaryDark">#077932</color>
+    <color name="colorAccent">#1bba41</color>
+    <color name="yellow">#ffe100</color>
+    <color name="color_keyboard_bg">#232d33</color>
+</resources>

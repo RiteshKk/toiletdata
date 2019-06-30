@@ -1,0 +1,223 @@
+<resources>
+    <string name="app_name">GTL/GVP</string>
+
+    <string name="toilet_id"><![CDATA[Toilet Id <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="select_state"><![CDATA[Assessor Name <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="state_name"><![CDATA[State Name <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="state_code"><![CDATA[State Code <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="city"><![CDATA[City <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="city_sensus_code"><![CDATA[ULB Code <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="assessor_name"><![CDATA[Assessor Name <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="assessor_phone"><![CDATA[Assessor Phone No <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="assessor_address"><![CDATA[Assessor Address <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="zone"><![CDATA[Zone <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="category"><![CDATA[Category <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="category_code"><![CDATA[Category Code <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="type"><![CDATA[Type <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="toilet_address1"><![CDATA[Toilet Address line 1 <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="toilet_address2"><![CDATA[Line 2(Nearby Location) <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="pin_code"><![CDATA[Pin Code <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="ward"><![CDATA[Ward <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="ulb_name"><![CDATA[Name Of ULB <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="maintenance_authority">Organization Responsible for maintaining the Toilet</string>
+    <string name="caretaker_name"><![CDATA[Care Taker Name <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="caretaker_phone"><![CDATA[Care Taker Phone No <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="open_days">Open Days</string>
+    <string name="opening_time"><![CDATA[Opening Time <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="closing_time"><![CDATA[Closing Time <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="cost"><![CDATA[Cost <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="lng">Longitude</string>
+    <string name="lat">Latitude</string>
+    <string name="seat"><![CDATA[Seats <sup><font color=#FFC4200A>*</font></sup>]]></string>
+
+    <string name="permission_rationale">Location and Camera permission is needed as core functionality</string>
+    <string name="permission_rationale_camera">Camera permission is needed for Image Capturing</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+    <string name="settings">Settings</string>
+    <string name="prompt_login">Login Number</string>
+    <string name="action_sign_in">LOGIN</string>
+    <string name="gender"><![CDATA[Gender <sup><font color=#FFC4200A>*</font></sup>]]></string>
+    <string name="facilities">Facilities</string>
+    <string name="fee">Fee</string>
+    <string name="child_friendly">Child Friendly</string>
+    <string name="differently_abled_friendly">Differently Abled Friendly</string>
+    <string name="napkin_machine">Sanitory Napkin Machine Available</string>
+    <string name="water_atm">Water ATM Availbale</string>
+    <string name="incinerator">Incinerator Available</string>
+    <string name="paynuse">Free Of Charge</string>
+    <string name="free_of_charge">Pay and Use</string>
+    <string name="show_data">Show Data</string>
+    <string name="gtl">Google Toilet &amp; GVP Locator</string>
+    <string name="toilet_loc_at">Toilet associated with :</string>
+    <string name="other">Other</string>
+    <string name="all_days_selected">(By default All Days selected)</string>
+    <string name="retry">Retry</string>
+    <string name="yes">1</string>
+    <string name="no">2</string>
+    <string name="rating_available">Rating Available</string>
+    <string name="blank_string">\"\"</string>
+    <string name="action_proceed">Proceed</string>
+    <string name="action_submit">Submit</string>
+    <string name="image_placeholder">Image PlaceHolder</string>
+    <string name="landmark">Landmark (Optional)</string>
+    <string name="address">Address</string>
+    <string name="remove_image">Remove Image</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="comment">Comment (Optional)</string>
+    <string name="replace_image">Replace Image</string>
+    <string name="gvp_id">GVP Id</string>
+    <string name="updated_on">Updated On :</string>
+
+
+    <string-array name="gender">
+        <item>Select Gender</item>
+        <item>Gents</item>
+        <item>Ladies</item>
+        <item>Gents and Ladies</item>
+        <item>Gents, Ladies and Transgender</item>
+    </string-array>
+
+    <string-array name="category">
+        <item>Category *</item>
+        <item>Public Toilet</item>
+        <item>Urinal Only</item>
+        <item>Community Toilet</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>Type *</item>
+        <item>Toilet Only</item>
+        <item>Urinal Only</item>
+        <item>Toilet And Urinal</item>
+    </string-array>
+
+    <string-array name="fee">
+        <item>Free Of Charge</item>
+        <item>Pay and Use</item>
+    </string-array>
+
+    <string-array name="toilet_location">
+        <item>ULB-Public Toilets</item>
+        <item>ULB-Community Toilet</item>
+        <!--<item>Sulabh Toilets</item>-->
+        <item>Market</item>
+        <item>Malls</item>
+        <item>Fuel Stations (Petrol Pumps/CNG Stations)</item>
+        <item>Railway Stations</item>
+        <item>Bus Stand</item>
+        <item>Metro Stations</item>
+        <item>Government Hospital</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="responsible_org">
+        <!--<item>ULB</item>-->
+        <!--<item>Sulabh</item>-->
+        <!--<item>Others</item>-->
+        <item>ULB Owned-ULB Maintained</item>
+        <item>ULB Owned-Third Party Maintained</item>
+        <item>Third Party Owned and Maintained</item>
+
+    </string-array>
+
+    <string-array name="time_list">
+        <item>00:00</item>
+        <item>00:30</item>
+        <item>01:00</item>
+        <item>01:30</item>
+        <item>02:00</item>
+        <item>02:30</item>
+        <item>03:00</item>
+        <item>03:30</item>
+        <item>04:00</item>
+        <item>04:30</item>
+        <item>05:00</item>
+        <item>05:30</item>
+        <item>06:00</item>
+        <item>06:30</item>
+        <item>07:00</item>
+        <item>07:30</item>
+        <item>08:00</item>
+        <item>08:30</item>
+        <item>09:00</item>
+        <item>09:30</item>
+        <item>10:00</item>
+        <item>10:30</item>
+        <item>11:00</item>
+        <item>11:30</item>
+        <item>12:00</item>
+        <item>12:30</item>
+        <item>13:00</item>
+        <item>13:30</item>
+        <item>14:00</item>
+        <item>14:30</item>
+        <item>15:00</item>
+        <item>15:30</item>
+        <item>16:00</item>
+        <item>16:30</item>
+        <item>17:00</item>
+        <item>17:30</item>
+        <item>18:00</item>
+        <item>18:30</item>
+        <item>19:00</item>
+        <item>19:30</item>
+        <item>20:00</item>
+        <item>20:30</item>
+        <item>21:00</item>
+        <item>21:30</item>
+        <item>22:00</item>
+        <item>22:30</item>
+        <item>23:00</item>
+        <item>23:30</item>
+        <item>23:59</item>
+    </string-array>
+
+    <string-array name="toilet_accessibility">
+        <item>Select option</item>
+        <item>Exactly Located</item>
+        <item>Easily Identified  (Nearby Located)</item>
+        <item>Reached after enquiry</item>
+        <item>Not Found</item>
+    </string-array>
+
+    <string-array name="gvp_category_list1">
+        <item>--Select Category--</item>
+        <item>Dustbins not being cleaned</item>
+        <item>Constant Garbage dump</item>
+        <item>Public Toilet(s) blockage</item>
+        <item>Open Manholes or Drains</item>
+        <item>Constant Sewerage or Storm water Overflow</item>
+        <item>Constant Stagnant Water on the Road</item>
+        <item>Improper Disposal of Fecal Waste/Septage</item>
+        <item>Debris Removal/Construction Material</item>
+        <item>Urination in Public/Open Defecation(OD)</item>
+    </string-array>
+
+    <string-array name="gvp_category_list">
+        <item>Garbage Vulnerable Point</item>
+        <item>Screens to prevent solid waste entry into the River</item>
+    </string-array>
+
+    <string-array name="gvp_ward_list">
+        <item>--Select Ward--</item>
+        <item>dummy data ward 1</item>
+        <item>dummy data ward 2</item>
+        <item>dummy data ward 3</item>
+        <item>dummy data ward 4</item>
+        <item>dummy data ward 5</item>
+        <item>dummy data ward 6</item>
+        <item>dummy data ward 7</item>
+        <item>dummy data ward 8</item>
+        <item>dummy data ward 9</item>
+        <item>dummy data ward 10</item>
+        <item>dummy data ward 11</item>
+        <item>dummy data ward 12</item>
+    </string-array>
+    <string name="title_activity_route_finder">Map</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="empty_view">No data Found</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="action_gvp_details">GVP Details</string>
+    <string name="degree"><![CDATA[&deg;]]></string>
+</resources>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ipssi.toiletdata.viewModel.CTPTListItemViewModel" />
+    </data>
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/ctpt_id_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="5"
+                android:text="ID" />
+
+            <TextView
+                android:id="@+id/ctpt_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/ctpt_id_label"
+                android:layout_toRightOf="@id/ctpt_id_label"
+                android:gravity="right"
+                android:text="@{viewModel.Id}"
+                android:textStyle="bold"
+                tools:text="1212121032930" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ctpt_id"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/ctpt_address_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line1"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="5dp"
+                android:ems="5"
+                android:text="Address" />
+
+            <TextView
+                android:id="@+id/ctpt_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line1"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/ctpt_address_label"
+                android:layout_toRightOf="@id/ctpt_address_label"
+                android:text="@{viewModel.Address}"
+                android:textStyle="bold"
+                tools:text="New Ashok Nagar new delhi 110096" />
+
+            <View
+                android:id="@+id/line3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ctpt_address"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/ctpt_map_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line3"
+                android:layout_marginTop="5dp"
+                android:ems="5"
+                android:text="Map" />
+
+            <TextView
+                android:id="@+id/ctpt_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line3"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/ctpt_map_label"
+                android:layout_toRightOf="@id/ctpt_map_label"
+                android:background="@mipmap/gps"
+                android:onClick="@{viewModel::onClick}" />
+
+            <View
+                android:id="@+id/line4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/ctpt_map"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray"
+                android:visibility="@{viewModel.ctptRating == null ? View.GONE : View.VISIBLE}" />
+
+            <TextView
+                android:id="@+id/tv_rating_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line4"
+                android:layout_marginTop="5dp"
+                android:ems="5"
+                android:text="Rating"
+                android:visibility="@{viewModel.ctptRating == null ? View.GONE : View.VISIBLE}" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line4"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/tv_rating_label"
+                android:layout_toRightOf="@id/tv_rating_label"
+                android:visibility="@{viewModel.ctptRating == null ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/star" />
+
+                <TextView
+                    android:id="@+id/tv_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.ctptRating}"
+                    tools:text="3/5" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/tv_rating_label"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/ctpt_question"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line5"
+                android:layout_marginTop="5dp"
+                android:text="Accessibility of toilet via Google Maps?"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/accessibility_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ctpt_question"
+                android:layout_marginTop="5dp"
+                android:entries="@array/toilet_accessibility"
+                android:selectedItemPosition="@={viewModel.selectedItemPosition}"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/rating_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/accessibility_spinner"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:text="@{viewModel.ctptRating != null &amp;&amp; !viewModel.ctptRating.equalsIgnoreCase(String.valueOf(0)) ? @string/rating_available : @string/blank_string}"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_12"
+                android:visibility="@{viewModel.ctptRating == null ? View.GONE : View.VISIBLE}" />
+
+
+            <TextView
+                android:id="@+id/btn_proceed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rating_indicator"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/btn_selector"
+                android:enabled="@{viewModel.selectedItemPosition>0}"
+                android:paddingStart="15dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:onClick="@{viewModel::onProceed}"
+                android:paddingRight="15dp"
+                android:paddingBottom="5dp"
+                android:text='@{viewModel.selectedItemPosition == 4 ? @string/action_submit : @string/action_proceed}'
+                android:textColor="@android:color/white"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                tools:text="Submit" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

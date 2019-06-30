@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "750917093390",
+    "firebase_url": "https://toilet-locator-1c465.firebaseio.com",
+    "project_id": "toilet-locator-1c465",
+    "storage_bucket": "toilet-locator-1c465.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750917093390:android:102b985afed4cd64",
+        "android_client_info": {
+          "package_name": "com.ipssi.toiletdata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750917093390-26cld22dt8ouh178g17lrm99kslbbaav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoJn8FU5Ap3R829jhqHGwng8j_6PYwIek"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
