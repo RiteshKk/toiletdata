@@ -121,7 +121,7 @@ class NodalOfficerWardList : AppCompatActivity(), OnCaptureButtonClickedListener
         var imageLocation: Location = Location("fused")
         imageLocation.latitude = viewData?.latitude ?: 0.0
         imageLocation.longitude = viewData?.longitude ?: 0.0
-        if (loc?.distanceTo(imageLocation)!! <= 15f) {
+        if (loc?.distanceTo(imageLocation)!! <= 10f) {
             dispatchTakePictureIntent()
         } else {
             val intent = Intent(this, RouteFinder::class.java)

@@ -42,6 +42,7 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
         Picasso.with(holder.itemView.context).load(C.IMAGE_BASE_URL + viewData?.nodal_img).fit().placeholder(android.R.drawable.ic_menu_camera).into(holder.nodalOfficerImage)
         holder.btnProceed.setTag(viewData)
         holder.btnCapture.setTag(position)
+        holder.nodalOfficerImage.setTag(position)
         if (viewData?.nodalOfficerImage != null) {
             holder.nodalOfficerImage.setImageBitmap(viewData?.nodalOfficerImage)
         }
@@ -74,7 +75,6 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
 
 
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-
         var cityAdminImage: ImageView
         var nodalOfficerImage: ImageView
         var address: TextView
@@ -92,19 +92,16 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
             todaysPic = itemView?.findViewById<TextView>(R.id.todays_pic)
             updatedOn = itemView?.findViewById<TextView>(R.id.tv_updated_on)
             btnCapture = itemView?.findViewById<TextView>(R.id.btn_capture)
-//            nodalOfficerImage.setOnClickListener(object : View.OnClickListener {
-//                override fun onClick(v: View?) {
-//
-//                }
-//            })
-            btnCapture?.setOnClickListener(object : View.OnClickListener {
+            nodalOfficerImage.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(v: View?) {
-
                     val position = v?.getTag() as? Int
                     mListener?.onCaptureButtomClicked(data?.get(position!!), position!!)
-
-//                    val viewData = v?.getTag() as? ViewData
-//                    mListener?.onUploadButtonClicked(viewData)
+                }
+            })
+            btnCapture?.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(v: View?) {
+                    val position = v?.getTag() as? Int
+                    mListener?.onCaptureButtomClicked(data?.get(position!!), position!!)
                 }
             })
 

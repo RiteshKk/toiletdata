@@ -54,6 +54,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback, OnLocationChangeCal
 
     }
 
+    private var isStopped: Boolean = false
     var currentDegree = 0f
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -105,7 +106,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback, OnLocationChangeCal
         var imageLocation: Location = Location("fused")
         imageLocation.latitude = lat
         imageLocation.longitude = lng
-        if (loc?.distanceTo(imageLocation)!! <= 15f) {
+        if (loc?.distanceTo(imageLocation)!! <= 10f) {
             setResult(Activity.RESULT_OK)
             locationAPI.onStop()
             finish()
@@ -125,6 +126,8 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback, OnLocationChangeCal
         super.onResume()
         setCompass()
     }
+
+
 
     override fun onPause() {
         super.onPause()
@@ -201,11 +204,13 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback, OnLocationChangeCal
 
     override fun onStop() {
         super.onStop()
+        isStopped = true
         locationAPI.onStop()
     }
 
     override fun onStart() {
         super.onStart()
+        isStopped = false
         locationAPI.onStart()
     }
 
@@ -296,7 +301,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback, OnLocationChangeCal
         val str_dest = "destination=" + dest.latitude + "," + dest.longitude
         // Sensor enabled
         val sensor = "sensor=true"
-        val mode = "mode=bicycle"
+        val mode = "mode=Bicycling"
         // Building the parameters to the web service
         val parameters = "$str_origin&$str_dest&$sensor&$mode"
         // Output format
@@ -329,9 +334,12 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback, OnLocationChangeCal
                         /** Traversing all steps  */
                         for (k in 0 until jSteps.length()) {
                             if (k == 0) {
-//
                                 val s = (jSteps.get(k) as JSONObject).get("html_instructions") as String
-                                runOnUiThread { Toast.makeText(this@RouteFinder, Html.fromHtml(s), Toast.LENGTH_LONG).show() }
+                                val distance = ((jSteps.get(k) as JSONObject).get("distance") as JSONObject).getString("text")
+                                runOnUiThread {
+                                    if (!isStopped)
+                                        Toast.makeText(this@RouteFinder, Html.fromHtml(distance + " " + s), Toast.LENGTH_LONG).show()
+                                }
                             }
                             var polyline = ""
                             polyline =

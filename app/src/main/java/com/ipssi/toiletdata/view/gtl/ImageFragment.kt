@@ -62,6 +62,7 @@ import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -435,13 +436,17 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
         latitude = loc.latitude
         longitude = loc.longitude
         val geocoder = Geocoder(this.activity, Locale.getDefault());
-        val addresses: List<Address> = geocoder.getFromLocation(loc!!.latitude, loc.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-        val addressObj = addresses.get(0)
-        val address = addressObj.getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-        val postalCode = addressObj.getPostalCode()
-        address1?.editText?.setText("${address}")
-        pin?.editText?.setText("${postalCode}")
-        dispatchTakePictureIntent()
+        try {
+            val addresses: List<Address> = geocoder.getFromLocation(loc!!.latitude, loc.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            val addressObj = addresses.get(0)
+            val address = addressObj.getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            val postalCode = addressObj.getPostalCode()
+            address1?.editText?.setText("${address}")
+            pin?.editText?.setText("${postalCode}")
+            dispatchTakePictureIntent()
+        }catch(e:Exception){
+            Snackbar.make(view!!,"Ooops Something went wrong.Please try again",Snackbar.LENGTH_LONG).show()
+        }
     }
 
 
