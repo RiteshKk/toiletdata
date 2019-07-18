@@ -159,20 +159,6 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
         }
     }
 
-
-    //    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        outState.putString(C.address1, address1?.editText?.text.toString().trim { it <= ' ' })
-//        outState.putString(C.address2, address2?.editText?.text.toString().trim { it <= ' ' })
-//        outState.putString(C.pinCode, pin?.editText?.text.toString().trim { it <= ' ' })
-//    }
-//
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//        address1?.editText?.setText(savedInstanceState?.getString(C.address1))
-//        address2?.editText?.setText(savedInstanceState?.getString(C.address2))
-//        pin?.editText?.setText(savedInstanceState?.getString(C.pinCode))
-//    }
     override fun onDetach() {
         super.onDetach()
         mListener = null
@@ -266,9 +252,9 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
         }
     }
 
-    fun validatePin(pin: TextInputLayout?): Boolean {
+    private fun validatePin(pin: TextInputLayout?): Boolean {
         val pinText = pin?.editText?.text.toString().trim { it <= ' ' }
-        if (pinText.length == 0) {
+        if (pinText.isEmpty()) {
             pin?.error = "Enter PIN"
             return false
         } else if (pinText.length < 6) {
@@ -281,9 +267,9 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
     }
 
 
-    fun validateEmpty(layout: TextInputLayout?): Boolean {
+    private fun validateEmpty(layout: TextInputLayout?): Boolean {
         val layoutText = layout?.editText?.text.toString().trim { it <= ' ' }
-        if (layoutText.length == 0) {
+        if (layoutText.isEmpty()) {
             layout?.error = "Field can not be empty"
             return false
         } else {
@@ -414,7 +400,6 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         locationAPI?.onActivityResult(requestCode, resultCode, data)
-        var bitmap: Bitmap? = null
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == PICK_IMAGE_CAMERA) {
                 if (resultCode == Activity.RESULT_OK) {
@@ -437,15 +422,15 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
         longitude = loc.longitude
         val geocoder = Geocoder(this.activity, Locale.getDefault());
         try {
-            val addresses: List<Address> = geocoder.getFromLocation(loc!!.latitude, loc.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-            val addressObj = addresses.get(0)
+            val addresses: List<Address> = geocoder.getFromLocation(loc.latitude, loc.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            val addressObj = addresses[0]
             val address = addressObj.getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            val postalCode = addressObj.getPostalCode()
-            address1?.editText?.setText("${address}")
-            pin?.editText?.setText("${postalCode}")
+            val postalCode = addressObj.postalCode
+            address1?.editText?.setText(address)
+            pin?.editText?.setText(postalCode)
             dispatchTakePictureIntent()
         }catch(e:Exception){
-            Snackbar.make(view!!,"Ooops Something went wrong.Please try again",Snackbar.LENGTH_LONG).show()
+            Snackbar.make(view!!,"Unable to fetch address.It seems your internet is not working",Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -502,8 +487,8 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
 
     companion object {
 
-        private val PICK_IMAGE_CAMERA = 101
-        private val REQUEST_PERMISSIONS_REQUEST_CODE = 102
+        private const val PICK_IMAGE_CAMERA = 101
+        private const val REQUEST_PERMISSIONS_REQUEST_CODE = 102
     }
 
 
@@ -539,7 +524,7 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss",Locale.getDefault()).format(Date())
         val storageDir: File? = context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
@@ -598,7 +583,7 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
                 val b1 = baos1.toByteArray()
                 imageToString[1] = Base64.encodeToString(b1, Base64.DEFAULT)
             } else {
-                bitmap3 = Utils.drawTextToBitmap(activity!!, bitmap!!, "lat:$latitude\nlng:$longitude")
+                bitmap3 = Utils.drawTextToBitmap(activity!!, bitmap, "lat:$latitude\nlng:$longitude")
                 //                ((TextView) getView().findViewById(R.id.location)).setText("Latitude : " + latitude + "\n" + "Longitude : " + longitude);
                 (view?.findViewById<View>(R.id.image3) as ImageView).setImageBitmap(bitmap3)
                 val baos1 = ByteArrayOutputStream()
@@ -607,18 +592,6 @@ class ImageFragment : Fragment(), View.OnClickListener, OnLocationChangeCallBack
                 imageToString[2] = Base64.encodeToString(b1, Base64.DEFAULT)
 
             }
-
-//            if (activeImage == 1) {
-//                image1.setImageBitmap(drawTextToBitmap)
-//                image1.setBackgroundColor(resources.getColor(android.R.color.transparent))
-//            } else if (activeImage == 2) {
-//                image2.setImageBitmap(drawTextToBitmap)
-//                image2.setBackgroundColor(resources.getColor(android.R.color.transparent))
-//            } else {
-//                image3.setImageBitmap(drawTextToBitmap)
-//                image3.setBackgroundColor(resources.getColor(android.R.color.transparent))
-//            }
         }
     }
-
 }

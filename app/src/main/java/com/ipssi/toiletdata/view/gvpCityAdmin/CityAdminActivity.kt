@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
@@ -51,9 +52,9 @@ class CityAdminActivity : AppCompatActivity() {
 
         locator = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE)
         if (locator.getString(C.ROLE, "").equals(C.NODAL_OFFICER, true)) {
-            getSupportActionBar()?.title = "Nodal Officer"
+            getSupportActionBar()?.title = "GVP Monitoring"
         } else {
-            getSupportActionBar()?.title = "GVP Admin"
+            getSupportActionBar()?.title = "GVP Mapping"
         }
         progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Please wait...")
@@ -134,6 +135,28 @@ class CityAdminActivity : AppCompatActivity() {
             intent.putExtra(C.SELECTED_WARD_ID,selectedWardId)
             startActivity(intent)
 //            Toast.makeText(this, "Oops! Something went wrong", Toast.LENGTH_SHORT).show()
+        }else if(item?.itemId == R.id.menu_user_manual){
+            val role = locator.getString(C.ROLE, "")
+            var url = ""
+            if (role.equals(C.GVP_ADMIN, ignoreCase = true)) {
+                url = C.GVP_MAPPING_MANUAL
+            } else if (role.equals(C.NODAL_OFFICER, true)) {
+                url = C.GVP_NODAL_MANUAL
+            }
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setData(Uri.parse(url))
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            }
+        }else if(item?.itemId == R.id.menu_feedback){
+            val url = "${C.FEEDBACK_LINK}user_id=${locator?.getString(C.MOBILE, "0")
+                    ?: "0"}&state_id=${locator?.getInt("stateId", 0)
+                    ?: 0}&city_id=${locator?.getInt("cityId", 0) ?: 0}"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setData(Uri.parse(url))
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

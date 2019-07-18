@@ -29,15 +29,15 @@ class CTPTList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView<ActivityCtptlistBinding>(this, R.layout.activity_ctptlist);
-        ctptListViewModel = CTPTListViewModel(application);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_ctptlist)
+        ctptListViewModel = CTPTListViewModel(application)
         binding.viewModel = ctptListViewModel
         if (intent.getStringExtra("type").equals(C.THIRD_PARTY, ignoreCase = true))
-            supportActionBar?.setTitle("CTPT-Third-Party Validation Tool")
+            supportActionBar?.title = "CTPT-Third-Party Validation Tool"
 
         observeData()
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = CTPTListAdapter(applicationContext);
+        adapter = CTPTListAdapter(applicationContext)
         binding.recyclerView.adapter = adapter
 
         app_version.text = Utils.getVersionName(this)
@@ -47,10 +47,6 @@ class CTPTList : AppCompatActivity() {
         menuInflater.inflate(R.menu.main_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
-//    fun updateModel(id: String?, totalMarks: String?) {
-//        adapter.update(id, totalMarks);
-//    }
 
     override fun onResume() {
         super.onResume()
@@ -69,14 +65,13 @@ class CTPTList : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun observeData() {
-        if (ctptListViewModel.getObserveData() != null) {
-            ctptListViewModel.observeData.observe(this, Observer<LiveDataWrapper<CTPTResponseModel>>() {
+    private fun observeData() =
+            ctptListViewModel.observeData.observe(this, Observer<LiveDataWrapper<CTPTResponseModel>> {
                 val data = it?.data
-                adapter.setData(data?.data, data?.totalMarks.toString());
-            });
-        }
-    }
+                adapter.run {
+                    setData(data?.data, data?.totalMarks.toString())
+                }
+            })
 
     override fun onBackPressed() {
         setResult(Activity.RESULT_OK)

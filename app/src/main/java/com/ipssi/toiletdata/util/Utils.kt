@@ -12,15 +12,15 @@ import java.util.*
 object Utils {
 
     fun drawTextToBitmap(gContext: Context,
-                         bitmap: Bitmap,
+                         imageBitmap: Bitmap,
                          gText: String): Bitmap {
-        var bitmap = bitmap
+        var bitmap = imageBitmap
         val resources = gContext.resources
         val scale = resources.displayMetrics.density
-        var bitmapConfig: android.graphics.Bitmap.Config? = bitmap.config
+        var bitmapConfig: Bitmap.Config? = bitmap.config
         // set default bitmap config if none
         if (bitmapConfig == null) {
-            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888
+            bitmapConfig = Bitmap.Config.ARGB_8888
         }
         // resource bitmaps are imutable,
         // so we need to convert it to mutable one
@@ -50,15 +50,15 @@ object Utils {
 
 
     fun drawDetailsToBitmap(gContext: Context,
-                            bitmap: Bitmap,
+                            imageBitmap: Bitmap,
                             gText: String, id: String, dateTime: String): Bitmap {
-        var bitmap = bitmap
+        var bitmap = imageBitmap
         val resources = gContext.resources
         val scale = resources.displayMetrics.density
-        var bitmapConfig: android.graphics.Bitmap.Config? = bitmap.config
+        var bitmapConfig: Bitmap.Config? = bitmap.config
         // set default bitmap config if none
         if (bitmapConfig == null) {
-            bitmapConfig = android.graphics.Bitmap.Config.ARGB_8888
+            bitmapConfig = Bitmap.Config.ARGB_8888
         }
         // resource bitmaps are imutable,
         // so we need to convert it to mutable one
@@ -105,8 +105,8 @@ object Utils {
         return bitmap
     }
 
-    fun saveImage(context: Context, b: Bitmap, name: String, extension: String) {
-        var name = name
+    fun saveImage(context: Context, b: Bitmap, imageName: String, extension: String) {
+        var name = imageName
         name = "$name.$extension"
         val out: FileOutputStream
         try {
@@ -116,13 +116,12 @@ object Utils {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     fun getVersionName(activity: Activity?): String {
         val packageInfo: PackageInfo?
         try {
-            packageInfo = activity?.packageManager?.getPackageInfo(activity?.packageName, 0)
+            packageInfo = activity?.packageManager?.getPackageInfo(activity.packageName, 0)
             return "Version : ${packageInfo?.versionName}"
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
@@ -130,8 +129,8 @@ object Utils {
         return ""
     }
 
-    fun getImageBitmap(context: Context, name: String, extension: String): Bitmap? {
-        var name = name
+    fun getImageBitmap(context: Context, imageName: String, extension: String): Bitmap? {
+        var name = imageName
         name = "$name.$extension"
         try {
             val fis = context.openFileInput(name)
@@ -144,10 +143,10 @@ object Utils {
         return null
     }
 
-    val SIMPLE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss"
+    const val SIMPLE_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss"
 
     fun getCurrentFormattedDateTime(format: String): String {
-        var dateFormatter = SimpleDateFormat(format, Locale.US)
+        val dateFormatter = SimpleDateFormat(format, Locale.US)
         return dateFormatter.format(Date())
     }
 }

@@ -1,12 +1,10 @@
 package com.ipssi.toiletdata.view.gtl
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.TextInputLayout
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.text.Html
 import android.util.Log
@@ -18,19 +16,14 @@ import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.Spinner
 import com.ipssi.toiletdata.R
+import com.ipssi.toiletdata.events.OnFragmentInteractionListener
 import com.ipssi.toiletdata.model.C
 import com.ipssi.toiletdata.model.ToiletData
 import com.ipssi.toiletdata.util.Utils
-import com.ipssi.toiletdata.events.OnFragmentInteractionListener
 import com.ipssi.toiletdata.util.ValidationError
 import kotlinx.android.synthetic.main.fragment_global_details.*
 
 class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener {
-
-//    override fun onLocationChange(loc: Location?) {
-//
-//        locationAPI.onStop()
-//    }
 
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
@@ -42,7 +35,7 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
         this.activity = childFragment?.activity
     }
 
-    private var activity: Activity? = null;
+    private var activity: Activity? = null
     private var etdState: TextInputLayout? = null
     private var etdStateCode: TextInputLayout? = null
     private var etdCity: TextInputLayout? = null
@@ -107,41 +100,6 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
     override fun onResume() {
         super.onResume()
         setViewData()
-//        if (ContextCompat.checkSelfPermission(context!!,
-//                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            locationAPI?.onStart()
-//        } else {
-//            requestPermissions()
-//        }
-    }
-
-
-    fun requestPermissions() {
-        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(activity!!, Manifest.permission.ACCESS_FINE_LOCATION)
-
-        if (shouldProvideRationale) {
-            showSnackbar(R.string.permission_rationale,
-                    android.R.string.ok, View.OnClickListener {
-                requestPermissions(
-                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                        REQUEST_PERMISSIONS_REQUEST_CODE)
-            })
-        } else {
-
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_PERMISSIONS_REQUEST_CODE)
-        }
-    }
-
-    private fun showSnackbar(mainTextStringId: Int, actionStringId: Int,
-                             listener: View.OnClickListener) {
-        Snackbar.make(view!!, getString(mainTextStringId), Snackbar.LENGTH_INDEFINITE).setAction(activity?.getString(actionStringId), listener).show()
-    }
-
-    companion object {
-
-        private val PICK_IMAGE_CAMERA = 101
-        private val REQUEST_PERMISSIONS_REQUEST_CODE = 102
     }
 
 
@@ -166,15 +124,12 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
         setSelection(type, toiletData)
     }
 
-    fun setSelection(type: Spinner?, toiletData: ToiletData?) {
-        if (toiletData?.type.equals("Toilet", ignoreCase = true)) {
-            type?.setSelection(1)
-        } else if (toiletData?.type.equals("Urinal", ignoreCase = true)) {
-            type?.setSelection(2)
-        } else if (toiletData?.type.equals("Toilet And Urinal", ignoreCase = true)) {
-            type?.setSelection(3)
-        } else {
-            type?.setSelection(0)
+    private fun setSelection(type: Spinner?, toiletData: ToiletData?) {
+        when {
+            toiletData?.type.equals("Toilet", ignoreCase = true) -> type?.setSelection(1)
+            toiletData?.type.equals("Urinal", ignoreCase = true) -> type?.setSelection(2)
+            toiletData?.type.equals("Toilet And Urinal", ignoreCase = true) -> type?.setSelection(3)
+            else -> type?.setSelection(0)
         }
     }
 
@@ -230,19 +185,19 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
     override fun onClick(v: View) {
 
         if (failureCounter == 0) {
-            validateEmpty(etdState);
+            validateEmpty(etdState)
         }
         if (failureCounter == 0) {
-            validateEmpty(etdStateCode);
+            validateEmpty(etdStateCode)
         }
         if (failureCounter == 0) {
-            validateEmpty(etdCity);
+            validateEmpty(etdCity)
         }
         if (failureCounter == 0) {
-            validateEmpty(etdCityCode);
+            validateEmpty(etdCityCode)
         }
         if (failureCounter == 0) {
-            validateEmpty(etdAssessorName);
+            validateEmpty(etdAssessorName)
         }
         if (failureCounter == 0) {
             validateMobile(etdAssessorPhone)
@@ -267,23 +222,25 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
         failureCounter = 0
     }
 
-    fun validateMobile(editText: TextInputLayout?) {
+    private fun validateMobile(editText: TextInputLayout?) {
         val mobile = editText?.editText?.text.toString().trim { it <= ' ' }
-        if (mobile.length == 0) {
-            failureCounter++
-            editText?.error = "Enter Mobile Number"
-        } else if (mobile.length > 0 && mobile.length < 10) {
-            failureCounter++
-            editText?.error = "Invalid Mobile Number"
-        } else {
-            editText?.error = null
+        when {
+            mobile.isEmpty() -> {
+                failureCounter++
+                editText?.error = "Enter Mobile Number"
+            }
+            mobile.length in 1..9 -> {
+                failureCounter++
+                editText?.error = "Invalid Mobile Number"
+            }
+            else -> editText?.error = null
         }
     }
 
 
-    fun validateEmpty(layout: TextInputLayout?) {
+    private fun validateEmpty(layout: TextInputLayout?) {
         val layoutText = layout?.editText?.text.toString().trim { it <= ' ' }
-        if (layoutText.length == 0) {
+        if (layoutText.isEmpty()) {
             failureCounter++
             layout?.error = "Field can not be empty"
         } else {
@@ -291,7 +248,7 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
         }
     }
 
-    fun validateSelection(view: View?, data: ToiletData?) {
+    private fun validateSelection(view: View?, data: ToiletData?) {
         val position = (view as Spinner).selectedItemPosition
         if (view.getId() == R.id.category) {
             if (position == 0) {
@@ -299,15 +256,14 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
                 onFailure(ValidationError(view, "Please Select category"))
             }
         } else if (view.getId() == R.id.type) {
-            if (position == 0) {
-                failureCounter++
-                onFailure(ValidationError(view, "Please Select type"))
-            } else if (position == 1) {
-                data?.type = "Toilet"
-            } else if (position == 2) {
-                data?.type = "Urinal"
-            } else {
-                data?.type = "Toilet And Urinal"
+            when (position) {
+                0 -> {
+                    failureCounter++
+                    onFailure(ValidationError(view, "Please Select type"))
+                }
+                1 -> data?.type = "Toilet"
+                2 -> data?.type = "Urinal"
+                else -> data?.type = "Toilet And Urinal"
             }
         }
     }
@@ -315,10 +271,10 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         if (parent.id == R.id.type) {
             var selectedType = resources.getStringArray(R.array.type)[position]
-            if (selectedType.equals("Type", ignoreCase = true)) {
-                selectedType = ""
+            selectedType = if (selectedType.equals("Type", ignoreCase = true)) {
+                ""
             } else {
-                selectedType = if (selectedType.contains("Only"))
+                if (selectedType.contains("Only"))
                     selectedType.replace("Only", "")
                 else
                     selectedType
@@ -334,7 +290,7 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
 
     }
 
-    fun onSuccess(str: String) {
+    private fun onSuccess(str: String) {
         try {
             val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             val iBinder = view?.windowToken
@@ -358,7 +314,7 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
         mListener?.onFragmentInteraction("2")
     }
 
-    fun onFailure(error: ValidationError) {
+    private fun onFailure(error: ValidationError) {
         val view = error.view
         if (view is TextInputLayout) {
             view.error = error.error
@@ -367,37 +323,4 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
             return
         }
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == 101 && resultCode == Activity.RESULT_CANCELED) {
-//            if (locationAPI.dialog.isShowing) {
-//                locationAPI.dialog.dismiss()
-//            }
-//        }
-//    }
-
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-//            if (grantResults.size <= 0) {
-//            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                locationAPI?.onStart()
-//            } else {
-//                Log.e("TAG", "Permission denied")
-//                showSnackbar(R.string.permission_denied_explanation,
-//                        R.string.settings, View.OnClickListener {
-//                    // Build intent that displays the App settings screen.
-//                    val intent = Intent()
-//                    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-//                    val uri = Uri.fromParts("package",
-//                            BuildConfig.APPLICATION_ID, null)
-//                    intent.data = uri
-//                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                    startActivity(intent)
-//                })
-//            }
-//        }
-//    }
-
 }

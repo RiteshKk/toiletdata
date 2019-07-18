@@ -2,7 +2,6 @@ package com.ipssi.toiletdata.controller
 
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +22,7 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.nodal_officer_item_view, parent, false))
     }
 
-    private val dateFormatter: SimpleDateFormat;
-
-    init {
-        dateFormatter = SimpleDateFormat("yyyy-MM-dd")
-    }
+    private val dateFormatter: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd",Locale.getDefault())
 
     override fun getItemCount(): Int {
         return data?.size ?: 0
@@ -36,18 +31,25 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val viewData = data?.get(position)
         holder.updatedOn.text = viewData?.nodal_clicked_img ?: viewData?.created_at
+        holder.officerImageTime.text = viewData?.nodal_clicked_img ?: ""
+        holder.adminImageTime.text = viewData?.created_at
         holder.gvpId.text = viewData?.gvp_id
         holder.address.text = viewData?.address
-        Picasso.with(holder.itemView.context).load(C.IMAGE_BASE_URL + viewData?.image_path).fit().into(holder.cityAdminImage)
-        Picasso.with(holder.itemView.context).load(C.IMAGE_BASE_URL + viewData?.nodal_img).fit().placeholder(android.R.drawable.ic_menu_camera).into(holder.nodalOfficerImage)
-        holder.btnProceed.setTag(viewData)
-        holder.btnCapture.setTag(position)
-        holder.nodalOfficerImage.setTag(position)
+        Picasso.with(holder.itemView.context)
+                .load(C.IMAGE_BASE_URL + viewData?.image_path)
+                .fit().into(holder.cityAdminImage)
+        Picasso.with(holder.itemView.context)
+                .load(C.IMAGE_BASE_URL + viewData?.nodal_img)
+                .fit().placeholder(android.R.drawable.ic_menu_camera)
+                .into(holder.nodalOfficerImage)
+        holder.btnProceed.tag = viewData
+        holder.btnCapture.tag = position
+        holder.nodalOfficerImage.tag = position
         if (viewData?.nodalOfficerImage != null) {
-            holder.nodalOfficerImage.setImageBitmap(viewData?.nodalOfficerImage)
+            holder.run { nodalOfficerImage.setImageBitmap(viewData.nodalOfficerImage) }
         }
 
-        if (viewData?.nodal_clicked_img != null && dateFormatter.format(Date()).equals(viewData?.nodal_clicked_img.split(" ")[0])) {
+        if (viewData?.nodal_clicked_img != null && dateFormatter.format(Date()).equals(viewData.nodal_clicked_img.split(" ")[0])) {
             holder.todaysPic.setBackgroundResource(R.mipmap.check)
         } else {
             holder.todaysPic.setBackgroundResource(R.mipmap.check_grey)
@@ -58,7 +60,7 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
     private var data: ArrayList<ViewData>? = null
 
     fun setData(data: ArrayList<ViewData>?) {
-        this.data = data;
+        this.data = data
         notifyDataSetChanged()
     }
 
@@ -68,7 +70,7 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
     }
 
     fun update(viewData: ViewData?, position: Int) {
-        data?.set(position, viewData!!);
+        data?.set(position, viewData!!)
         notifyDataSetChanged()
 
     }
@@ -78,6 +80,8 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
         var cityAdminImage: ImageView
         var nodalOfficerImage: ImageView
         var address: TextView
+        var adminImageTime: TextView
+        var officerImageTime: TextView
         var gvpId: TextView
         var todaysPic: TextView
         var updatedOn: TextView
@@ -85,36 +89,37 @@ class NodalOfficerWardDetailsAdapter : RecyclerView.Adapter<NodalOfficerWardDeta
         var btnProceed: TextView
 
         init {
-            cityAdminImage = itemView?.findViewById<ImageView>(R.id.image_admin_clicked)!!
-            nodalOfficerImage = itemView?.findViewById<ImageView>(R.id.latest_officer_clicked)
-            address = itemView?.findViewById<TextView>(R.id.address)
-            gvpId = itemView?.findViewById<TextView>(R.id.gvp_id)
-            todaysPic = itemView?.findViewById<TextView>(R.id.todays_pic)
-            updatedOn = itemView?.findViewById<TextView>(R.id.tv_updated_on)
-            btnCapture = itemView?.findViewById<TextView>(R.id.btn_capture)
-            nodalOfficerImage.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
-                    val position = v?.getTag() as? Int
-                    mListener?.onCaptureButtomClicked(data?.get(position!!), position!!)
-                }
-            })
-            btnCapture?.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
-                    val position = v?.getTag() as? Int
-                    mListener?.onCaptureButtomClicked(data?.get(position!!), position!!)
-                }
-            })
+            cityAdminImage = itemView?.findViewById(R.id.image_admin_clicked)!!
+            nodalOfficerImage = itemView.run { findViewById(R.id.latest_officer_clicked) }
+            address = itemView.run { findViewById(R.id.address) }
+            adminImageTime = itemView.run { findViewById(R.id.admin_image_date_time) }
+            officerImageTime = itemView.run { findViewById(R.id.nodal_image_date_time) }
+            gvpId = itemView.run { findViewById(R.id.gvp_id) }
+            todaysPic = itemView.run { findViewById(R.id.todays_pic) }
+            updatedOn = itemView.run { findViewById(R.id.tv_updated_on) }
+            btnCapture = itemView.run { findViewById(R.id.btn_capture) }
+            nodalOfficerImage.setOnClickListener { v ->
+                val position = v?.getTag() as? Int
+                mListener?.onCaptureButtomClicked(data?.get(position!!), position!!)
+            }
+            btnCapture.setOnClickListener { v ->
+                val position = v?.getTag() as? Int
+                mListener?.onCaptureButtomClicked(data?.get(position!!), position!!)
+            }
 
-            btnProceed = itemView?.findViewById<TextView>(R.id.btn_proceed)
-            btnProceed?.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(p0: View?) {
-                    val viewData = p0?.getTag() as? ViewData
-                    val intent = Intent(itemView?.context, NodalOfficerDetails::class.java)
-                    intent.putExtra(C.DATA_TAG, viewData)
-                    itemView?.context.startActivity(intent)
+            btnProceed = itemView.run { findViewById(R.id.btn_proceed) }
+            btnProceed.setOnClickListener { p0 ->
+                val viewData = p0?.getTag() as? ViewData
+                val intent = Intent(
+                        itemView.context,
+                        NodalOfficerDetails::class.java
+                ).apply {
+                    putExtra(C.DATA_TAG, viewData)
                 }
-
-            })
+                with(itemView) {
+                    context.startActivity(intent)
+                }
+            }
         }
     }
 }

@@ -56,10 +56,10 @@
             android:label="Ward List" />
         <activity
             android:name=".view.gvpCityAdmin.CityAdminForm"
-            android:label="GVP Admin Form" />
+            android:label="GVP Mapping Form" />
         <activity
             android:name=".view.gvpCityAdmin.CityAdminActivity"
-            android:label="GVP Admin" />
+            android:label="GVP Mapping" />
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">

@@ -220,4 +220,6 @@
     <string name="upload_image">Upload Image</string>
     <string name="action_gvp_details">GVP Details</string>
     <string name="degree"><![CDATA[&deg;]]></string>
+    <string name="user_manual">User Manual</string>
+    <string name="feedback">Feedback</string>
 </resources>

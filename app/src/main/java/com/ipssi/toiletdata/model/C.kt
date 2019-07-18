@@ -68,5 +68,9 @@ interface C {
         val GVP_ID: String? = "gvp_id"
         val CATEGORY_LIST: String? = "category_list"
         val WARD_LIST: String? = "ward_list"
+        val FEEDBACK_LINK = "http://sbmtoilet.org/frontend/web/index.php?r=site/app-feedback&"
+        val GTL_USER_MANUAL = "https://www.youtube.com/watch?v=-wmS-IuFED0&feature=youtu.be&id=no8krypnz7gph7ob"
+        val GVP_MAPPING_MANUAL = "https://drive.google.com/file/d/1CS4qHzwufvgRRSg48OTvDvEIDbKmHDc-/view"
+        val GVP_NODAL_MANUAL = "https://drive.google.com/file/d/1hI6JLYEYYFyH38K90RzEYJa11aX_blWd/view"
     }
 }

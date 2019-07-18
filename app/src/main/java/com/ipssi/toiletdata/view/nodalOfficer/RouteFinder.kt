@@ -287,7 +287,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback, OnLocationChangeCal
             mMap.addPolyline(lineOptions)
             if (!isMessageShow) {
                 isMessageShow = true;
-                Snackbar.make(map.view!!, "You have to reach at destination to click picture", Snackbar.LENGTH_INDEFINITE).show()
+                Snackbar.make(map.view!!, "Oops! it seems you are away from GVP. Please reach at right GVP location", Snackbar.LENGTH_INDEFINITE).show()
             }
         }
     }

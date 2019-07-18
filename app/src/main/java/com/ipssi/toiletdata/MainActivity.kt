@@ -43,21 +43,18 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         locator = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE)
 
         loginFragment = LoginFragment()
-        if (locator?.getBoolean(C.IS_LOGGED_IN, false) ?: false) {
+        if (locator?.getBoolean(C.IS_LOGGED_IN, false) == true) {
             val role = locator?.getString(C.ROLE, "")
-            if (role.equals(C.ULB, true)) {
-                init()
-                onFragmentInteraction("1")
-            } else if (role.equals(C.CTPT, true)) {
-                onFragmentInteraction(C.CTPT)
-            } else if (role.equals(C.THIRD_PARTY, ignoreCase = true)) {
-                onFragmentInteraction(C.THIRD_PARTY)
-            } else if (role.equals(C.GVP_ADMIN, ignoreCase = true)) {
-                onFragmentInteraction(C.GVP_ADMIN)
-            }else if(role.equals(C.NODAL_OFFICER,true)){
-                onFragmentInteraction(C.NODAL_OFFICER)
-            } else {
-                onFragmentInteraction("0")
+            when {
+                role.equals(C.ULB, true) -> {
+                    init()
+                    onFragmentInteraction("1")
+                }
+                role.equals(C.CTPT, true) -> onFragmentInteraction(C.CTPT)
+                role.equals(C.THIRD_PARTY, ignoreCase = true) -> onFragmentInteraction(C.THIRD_PARTY)
+                role.equals(C.GVP_ADMIN, ignoreCase = true) -> onFragmentInteraction(C.GVP_ADMIN)
+                role.equals(C.NODAL_OFFICER, true) -> onFragmentInteraction(C.NODAL_OFFICER)
+                else -> onFragmentInteraction("0")
             }
         } else {
             onFragmentInteraction("0")
@@ -66,7 +63,7 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
 
     override fun onResume() {
         super.onResume()
-        if (locator?.getBoolean(C.IS_LOGGED_IN, false) ?: false) {
+        if (locator?.getBoolean(C.IS_LOGGED_IN, false) == true) {
             checkVersion()
         } else {
             onFragmentInteraction("0")
@@ -74,7 +71,7 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
     }
 
 
-    fun checkVersion() {
+    private fun checkVersion() {
         val url = "https://raw.githubusercontent.com/sushilrajput/demo/master/json_files/document.json"
         val requestQueue = ToiletLocatorApp.instance?.getRequestQueue()
         val request = JsonObjectRequest(Request.Method.GET, url, null, Response.Listener { response ->
@@ -89,7 +86,7 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
                     builder.setMessage("Update your app to use new features")
                     builder.setTitle("Update App")
                     builder.setCancelable(false)
-                    builder.setPositiveButton("Update") { view, which -> downloadApp() }
+                    builder.setPositiveButton("Update") { _, _ -> downloadApp() }
                     builder.show()
                 }
             } catch (e: Throwable) {
@@ -105,7 +102,7 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         val url = "https://github.com/sushilrajput/demo/blob/master/json_files/gtl.apk?raw=true"
         //val url = "http://sbmtoilet.org/gtlApp/gtl-app-download.php"
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.setData(Uri.parse(url))
+        intent.data = Uri.parse(url)
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         }
@@ -127,127 +124,182 @@ class MainActivity : AppCompatActivity(), OnFragmentInteractionListener {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val role = locator?.getString(C.ROLE, "")
+        when {
+            role.equals(C.ULB, true) -> {
+
+            }
+            role.equals(C.CTPT, true) -> {
+
+            }
+            role.equals(C.THIRD_PARTY, ignoreCase = true) -> menu?.findItem(R.id.menu_user_manual)?.isVisible = false
+            role.equals(C.GVP_ADMIN, ignoreCase = true) -> {
+
+            }
+            role.equals(C.NODAL_OFFICER, true) -> {
+
+            }
+            else -> menu?.findItem(R.id.menu_user_manual)?.isVisible = false
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_logout) {
-            locator?.edit()?.putBoolean(C.IS_LOGGED_IN, false)?.apply()
-            onFragmentInteraction("0")
-        } else {
-            startActivity(Intent(this, ListActivity::class.java))
+        when (item.itemId) {
+            R.id.menu_logout -> {
+                locator?.edit()?.putBoolean(C.IS_LOGGED_IN, false)?.apply()
+                onFragmentInteraction("0")
+            }
+            R.id.menu_feedback -> {
+                val url = "${C.FEEDBACK_LINK}user_id=${locator?.getString(C.MOBILE, "0")
+                        ?: "0"}&state_id=${locator?.getInt("stateId", 0)
+                        ?: 0}&city_id=${locator?.getInt("cityId", 0) ?: 0}"
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                if (intent.resolveActivity(packageManager) != null) {
+                    startActivity(intent)
+                }
+            }
+            R.id.menu_show -> {
+                startActivity(Intent(this, ListActivity::class.java))
+            }
+            R.id.menu_user_manual -> {
+                var url = ""
+                val role = locator?.getString(C.ROLE, "")
+                when {
+                    role.equals(C.ULB, true) -> url = C.GTL_USER_MANUAL
+                    role.equals(C.CTPT, true) -> url = C.GTL_USER_MANUAL
+                    role.equals(C.GVP_ADMIN, ignoreCase = true) -> url = C.GVP_MAPPING_MANUAL
+                    role.equals(C.NODAL_OFFICER, true) -> url = C.GVP_NODAL_MANUAL
+                }
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                if (intent.resolveActivity(packageManager) != null) {
+                    startActivity(intent)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onFragmentInteraction(uri: String) {
 
-        if (uri.equals("0", ignoreCase = true)) {
-            toiletData = ToiletData()
-            supportActionBar?.hide()
+        when {
+            uri.equals("0", ignoreCase = true) -> {
+                toiletData = ToiletData()
+                supportActionBar?.hide()
 
-            val bundle = Bundle()
-            bundle.putParcelable(C.DATA_TAG, toiletData)
-            loginFragment?.arguments = bundle
-            supportFragmentManager
-                    .beginTransaction()
-                    .addToBackStack("")
-                    .replace(R.id.container, loginFragment)
-                    .commit()
+                val bundle = Bundle()
+                bundle.putParcelable(C.DATA_TAG, toiletData)
+                loginFragment?.arguments = bundle
+                supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack("")
+                        .replace(R.id.container, loginFragment)
+                        .commit()
 
-        } else if (uri.equals("1", ignoreCase = true)) {
-            init()
-            supportFragmentManager.popBackStack("", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
-            var globalDetailsFragment: GlobalDetailsFragment? = supportFragmentManager.findFragmentByTag("one") as? GlobalDetailsFragment
-            if (globalDetailsFragment == null) {
-                globalDetailsFragment = GlobalDetailsFragment()
-            } else {
-                supportFragmentManager.popBackStack("one", 0)
             }
+            uri.equals("1", ignoreCase = true) -> {
+                init()
+                supportFragmentManager.popBackStack("", FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
-            val bundle = Bundle()
-            supportActionBar?.show()
-            bundle.putParcelable(C.DATA_TAG, toiletData)
-            globalDetailsFragment.arguments = bundle
-            supportFragmentManager
-                    .beginTransaction()
-                    .addToBackStack("one")
-                    .replace(R.id.container, globalDetailsFragment, "one")
-                    .commit()
+                var globalDetailsFragment: GlobalDetailsFragment? = supportFragmentManager.findFragmentByTag("one") as? GlobalDetailsFragment
+                if (globalDetailsFragment == null) {
+                    globalDetailsFragment = GlobalDetailsFragment()
+                } else {
+                    supportFragmentManager.popBackStack("one", 0)
+                }
 
-        } else if (uri.equals("2", ignoreCase = true)) {
-            var localDetailsFragment: LocalDetailsFragment? = supportFragmentManager.findFragmentByTag("two") as? LocalDetailsFragment
-            if (localDetailsFragment == null) {
-                localDetailsFragment = LocalDetailsFragment()
+                val bundle = Bundle()
+                supportActionBar?.show()
+                bundle.putParcelable(C.DATA_TAG, toiletData)
+                globalDetailsFragment.arguments = bundle
+                supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack("one")
+                        .replace(R.id.container, globalDetailsFragment, "one")
+                        .commit()
 
-            } else {
-                supportFragmentManager.popBackStack("two", 0)
             }
+            uri.equals("2", ignoreCase = true) -> {
+                var localDetailsFragment: LocalDetailsFragment? = supportFragmentManager.findFragmentByTag("two") as? LocalDetailsFragment
+                if (localDetailsFragment == null) {
+                    localDetailsFragment = LocalDetailsFragment()
 
-            val bundle = Bundle()
-            bundle.putParcelable(C.DATA_TAG, toiletData)
-            localDetailsFragment.arguments = bundle
-            supportFragmentManager
-                    .beginTransaction()
-                    .addToBackStack("two")
-                    .replace(R.id.container, localDetailsFragment, "two")
-                    .commit()
+                } else {
+                    supportFragmentManager.popBackStack("two", 0)
+                }
 
-        } else if (uri.equals("3", ignoreCase = true)) {
-            var imageFragment: ImageFragment? = supportFragmentManager.findFragmentByTag("three") as? ImageFragment
-            if (imageFragment == null) {
-                imageFragment = ImageFragment()
+                val bundle = Bundle()
+                bundle.putParcelable(C.DATA_TAG, toiletData)
+                localDetailsFragment.arguments = bundle
+                supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack("two")
+                        .replace(R.id.container, localDetailsFragment, "two")
+                        .commit()
 
-            } else {
-                supportFragmentManager.popBackStack("three", 0)
             }
+            uri.equals("3", ignoreCase = true) -> {
+                var imageFragment: ImageFragment? = supportFragmentManager.findFragmentByTag("three") as? ImageFragment
+                if (imageFragment == null) {
+                    imageFragment = ImageFragment()
 
-            val bundle = Bundle()
-            bundle.putParcelable(C.DATA_TAG, toiletData)
-            imageFragment.arguments = bundle
-            supportFragmentManager
-                    .beginTransaction()
-                    .addToBackStack("three")
-                    .replace(R.id.container, imageFragment, "three")
-                    .commit()
+                } else {
+                    supportFragmentManager.popBackStack("three", 0)
+                }
 
-        } else if (uri.equals("main", ignoreCase = true)) {
-            toiletData = ToiletData()
-            init()
-            supportFragmentManager.popBackStack("one", FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            val globalDetailsFragment = GlobalDetailsFragment()
-            val bundle = Bundle()
-            supportActionBar?.show()
-            bundle.putParcelable(C.DATA_TAG, toiletData)
-            globalDetailsFragment.arguments = bundle
-            supportFragmentManager
-                    .beginTransaction()
-                    .addToBackStack("one")
-                    .replace(R.id.container, globalDetailsFragment, "one")
-                    .commit()
+                val bundle = Bundle()
+                bundle.putParcelable(C.DATA_TAG, toiletData)
+                imageFragment.arguments = bundle
+                supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack("three")
+                        .replace(R.id.container, imageFragment, "three")
+                        .commit()
 
-        } else if (uri.equals("otp", ignoreCase = true)) {
-            supportFragmentManager
+            }
+            uri.equals("main", ignoreCase = true) -> {
+                toiletData = ToiletData()
+                init()
+                supportFragmentManager.popBackStack("one", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                val globalDetailsFragment = GlobalDetailsFragment()
+                val bundle = Bundle()
+                supportActionBar?.show()
+                bundle.putParcelable(C.DATA_TAG, toiletData)
+                globalDetailsFragment.arguments = bundle
+                supportFragmentManager
+                        .beginTransaction()
+                        .addToBackStack("one")
+                        .replace(R.id.container, globalDetailsFragment, "one")
+                        .commit()
+
+            }
+            uri.equals("otp", ignoreCase = true) -> supportFragmentManager
                     .beginTransaction()
                     .addToBackStack("")
                     .replace(R.id.container, OTPFragment())
                     .commit()
-
-        } else if (uri.equals(C.CTPT, true)) {
-            val intent = Intent(this, CTPTList::class.java)
-            intent.putExtra("type", C.CTPT)
-            startActivityForResult(intent, 102)
-        } else if (uri.equals(C.THIRD_PARTY, ignoreCase = true)) {
-            val intent = Intent(this, CTPTList::class.java)
-            intent.putExtra("type", C.THIRD_PARTY)
-            startActivityForResult(intent, 102)
-        } else if (uri.equals(C.GVP_ADMIN, ignoreCase = true)) {
-            val intent = Intent(this, CityAdminActivity::class.java)
-            startActivityForResult(intent, 102)
-        }else if(uri.equals(C.NODAL_OFFICER,true)){
-            var intent= Intent(this,CityAdminActivity::class.java)
-            startActivityForResult(intent,102)
-        } else {
-            supportFragmentManager.popBackStack()
+            uri.equals(C.CTPT, true) -> {
+                val intent = Intent(this, CTPTList::class.java)
+                intent.putExtra("type", C.CTPT)
+                startActivityForResult(intent, 102)
+            }
+            uri.equals(C.THIRD_PARTY, ignoreCase = true) -> {
+                val intent = Intent(this, CTPTList::class.java)
+                intent.putExtra("type", C.THIRD_PARTY)
+                startActivityForResult(intent, 102)
+            }
+            uri.equals(C.GVP_ADMIN, ignoreCase = true) -> {
+                val intent = Intent(this, CityAdminActivity::class.java)
+                startActivityForResult(intent, 102)
+            }
+            uri.equals(C.NODAL_OFFICER, true) -> {
+                val intent = Intent(this, CityAdminActivity::class.java)
+                startActivityForResult(intent, 102)
+            }
+            else -> supportFragmentManager.popBackStack()
         }
     }
 

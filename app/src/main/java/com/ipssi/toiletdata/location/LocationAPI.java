@@ -119,7 +119,7 @@ public class LocationAPI {
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-//        mLocationRequest.setSmallestDisplacement(5);
+        mLocationRequest.setSmallestDisplacement(5);
     }
 
     /**

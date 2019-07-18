@@ -7,10 +7,18 @@
         android:id="@+id/menu_show"
         android:title="@string/show_data"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_feedback"
+        android:title="@string/feedback"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_user_manual"
+        android:title="@string/user_manual"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_logout"
         android:icon="@android:drawable/ic_lock_power_off"
         android:title="Logout"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>
