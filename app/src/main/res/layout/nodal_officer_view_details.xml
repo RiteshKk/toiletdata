@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.ipssi.toiletdata.view.nodalOfficer.model.NodalGVPDetails" />
+            type="gov.mohua.gtl.view.nodalOfficer.model.NodalGVPDetails" />
     </data>
 
     <LinearLayout

@@ -3,12 +3,12 @@
 
     <data>
 
-        <import type="com.ipssi.toiletdata.model.ToiletData" />
+        <import type="gov.mohua.gtl.model.ToiletData" />
         <import type="android.view.View" />
 
         <variable
             name="modelData"
-            type="com.ipssi.toiletdata.model.ToiletData" />
+            type="gov.mohua.gtl.model.ToiletData" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

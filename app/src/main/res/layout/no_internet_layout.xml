@@ -7,7 +7,7 @@
 
         <variable
             name="noNetworkViewModel"
-            type="com.ipssi.toiletdata.viewModel.NoNetworkViewModel" />
+            type="gov.mohua.gtl.viewModel.NoNetworkViewModel" />
 
         <import type="android.text.InputType" />
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ipssi.toiletdata">
+    package="gov.mohua.gtl">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -27,6 +27,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -61,7 +62,7 @@
             android:name=".view.gvpCityAdmin.CityAdminActivity"
             android:label="GVP Mapping" />
         <activity
-            android:name=".MainActivity"
+            android:name="gov.mohua.gtl.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -70,7 +71,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.gtl.DetailsActivity"
+            android:name="gov.mohua.gtl.view.gtl.DetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout|keyboard"
             android:label="Toilet Details" />
         <activity

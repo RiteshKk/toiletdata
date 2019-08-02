@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.ipssi.toiletdata.viewModel.CTPTListViewModel" />
+            type="gov.mohua.gtl.viewModel.CTPTListViewModel" />
 
     </data>
 

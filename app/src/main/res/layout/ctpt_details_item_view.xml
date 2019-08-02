@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.ipssi.toiletdata.model.QuestionData" />
+            type="gov.mohua.gtl.model.QuestionData" />
     </data>
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
