@@ -29,7 +29,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import com.crashlytics.android.Crashlytics
@@ -311,7 +310,7 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
             if (resultCode == Activity.RESULT_OK) {
                 setPic()
             } else {
-                Toast.makeText(this, "Unable to capture image! Please try Again", Toast.LENGTH_SHORT).show()
+                Snackbar.make(parent_container, "Unable to capture image! Please try Again", Snackbar.LENGTH_SHORT).show()
             }
         } else if (requestCode == 101 && resultCode == Activity.RESULT_CANCELED) {
             if (locationAPI.dialog.isShowing) {

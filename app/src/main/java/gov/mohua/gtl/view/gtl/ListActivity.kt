@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,7 +12,6 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import com.google.gson.GsonBuilder
@@ -23,6 +23,7 @@ import gov.mohua.gtl.model.C
 import gov.mohua.gtl.model.ToiletData
 import gov.mohua.gtl.util.RecyclerItemClickListener
 import gov.mohua.gtl.util.Utils
+import kotlinx.android.synthetic.main.content_list.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -88,7 +89,7 @@ class ListActivity : AppCompatActivity(), RecyclerItemClickListener.OnItemClickL
         }, Response.ErrorListener { error ->
             progressDialog?.dismiss()
             if (error is NoConnectionError || error is TimeoutError) {
-                Toast.makeText(this@ListActivity, "Can't Connect right now!", Toast.LENGTH_LONG).show()
+                Snackbar.make(parent_container, "Can't Connect right now!", Snackbar.LENGTH_LONG).show()
             } else if (error is AuthFailureError) {
                 Log.e("volleyError",
                         "auth Error " + error.message)
@@ -99,7 +100,7 @@ class ListActivity : AppCompatActivity(), RecyclerItemClickListener.OnItemClickL
                 Log.e("volleyError",
                         "network error " + error.message)
             } else if (error is ParseError) {
-                Toast.makeText(this@ListActivity, "Server Error!", Toast.LENGTH_LONG).show()
+                Snackbar.make(parent_container, "Server Error!", Snackbar.LENGTH_LONG).show()
                 Log.e("volleyError",
                         "parsing error " + error.message)
             }

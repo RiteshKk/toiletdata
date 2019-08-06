@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.MenuItem
-import android.widget.Toast
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.google.gson.Gson
@@ -163,12 +162,12 @@ class CTPTFormDetails : AppCompatActivity(),gov.mohua.gtl.OnFragmentChangeListen
                     val status = it.optString("status")
 
                     if (status.contains("Saved")) {
-                        Toast.makeText(applicationContext, "Data Saved Successfully!!", Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "Data Saved Successfully!!", Snackbar.LENGTH_LONG).show()
                         finish()
                     }
                 }, Response.ErrorListener {
             progressDialog.dismiss()
-            Snackbar.make(binding.root, "Oops something went wrong!", Toast.LENGTH_LONG).show()
+            Snackbar.make(binding.root, "Oops something went wrong!", Snackbar.LENGTH_LONG).show()
         })
 
         requestQueue?.add(request)

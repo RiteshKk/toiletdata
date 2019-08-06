@@ -328,21 +328,21 @@ class LocalDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener, Vie
                 val closeTime = closingTime?.selectedItemPosition
                 val sex = gender?.selectedItemPosition
 
-                if (careTakername.length == 0) {
+                if (careTakername.isEmpty()) {
                     careTakerName?.error = "Enter Care Taker name"
                     return
                 } else {
                     careTakerName?.error = null
                 }
-                if (mobileNumber.length == 0) {
+                if (mobileNumber.isEmpty()) {
                     careTakerPhone?.error = "Enter Mobile Number"
-                } else if (mobileNumber.length > 0 && mobileNumber.length < 10) {
+                } else if (mobileNumber.length in 1..9) {
                     careTakerPhone?.error = "Invalid care taker Mobile Number"
                     return
                 } else {
                     careTakerPhone?.error = null
                 }
-                if (seatNo.length == 0) {
+                if (seatNo.isEmpty()) {
                     seats?.error = "Enter Seat No"
                     return
                 } else {
@@ -403,7 +403,7 @@ class LocalDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener, Vie
         mListener?.onFragmentInteraction("3")
     }
 
-    fun getTimeSlotPosition(timeSlot: String?): Int {
+    private fun getTimeSlotPosition(timeSlot: String?): Int {
         val timeArray = resources.getStringArray(R.array.time_list)
         for (i in timeArray.indices) {
             if (timeArray[i].equals(timeSlot, ignoreCase = true)) {
@@ -413,7 +413,7 @@ class LocalDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener, Vie
         return 0
     }
 
-    fun getTimeSlotString(position: Int?): String {
+    private fun getTimeSlotString(position: Int?): String {
         val timeArray = resources.getStringArray(R.array.time_list)
         return timeArray[position!!]
     }

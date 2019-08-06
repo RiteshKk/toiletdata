@@ -149,7 +149,9 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/edt_assessor_phone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@android:color/holo_red_dark">
 
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
@@ -173,6 +175,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
+                        app:errorEnabled="true"
                         app:errorTextAppearance="@android:color/holo_red_dark">
 
                         <android.support.design.widget.TextInputEditText
@@ -191,7 +194,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        app:errorTextAppearance="@android:color/holo_red_dark">
+                        >
 
                         <android.support.design.widget.TextInputEditText
                             android:layout_width="match_parent"

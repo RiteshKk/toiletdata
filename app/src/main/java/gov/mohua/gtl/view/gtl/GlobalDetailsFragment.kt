@@ -108,20 +108,22 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
         etdState?.editText?.setText(toiletData?.stateName)
         etdCityCode?.editText?.setText(if (toiletData?.cityCode == 0) "" else toiletData?.cityCode.toString())
         etdCity?.editText?.setText(toiletData?.cityName)
-        etdAssessorName?.editText?.setText(toiletData?.assessorName)
-        etdAssessorPhone?.editText?.setText(toiletData?.assessorPhoneNo)
-        etdZone?.editText?.setText(toiletData?.zone)
-        etdWard?.editText?.setText(toiletData?.ward)
+        if(!toiletData?.assessorName.isNullOrEmpty()) {
+            etdAssessorName?.editText?.setText(toiletData?.assessorName)
+            etdAssessorPhone?.editText?.setText(toiletData?.assessorPhoneNo)
+            etdZone?.editText?.setText(toiletData?.zone)
+            etdWard?.editText?.setText(toiletData?.ward)
 
-        val categoryArray = resources.getStringArray(R.array.category)
-        for (i in categoryArray.indices) {
-            if (categoryArray[i].equals(toiletData?.category, ignoreCase = true)) {
-                category?.setSelection(i)
-                break
+            val categoryArray=resources.getStringArray(R.array.category)
+            for(i in categoryArray.indices) {
+                if(categoryArray[i].equals(toiletData?.category,ignoreCase=true)) {
+                    category?.setSelection(i)
+                    break
+                }
             }
-        }
 
-        setSelection(type, toiletData)
+            setSelection(type,toiletData)
+        }
     }
 
     private fun setSelection(type: Spinner?, toiletData: ToiletData?) {
@@ -145,7 +147,7 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.e("onSave", "saved")
+        Log.e("Bundle", "saved")
         outState.putString(C.STATE_CODE, etdStateCode?.editText?.text.toString().trim { it <= ' ' })
         outState.putString(C.stateName, etdState?.editText?.text.toString().trim { it <= ' ' })
         outState.putString(C.CITY_CODE, etdCityCode?.editText?.text.toString().trim { it <= ' ' })
@@ -154,14 +156,13 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
         outState.putString(C.ASSESSOR_PHONE, etdAssessorPhone?.editText?.text.toString().trim { it <= ' ' })
         outState.putString(C.zone, etdZone?.editText?.text.toString().trim { it <= ' ' })
         outState.putString(C.ward, etdWard?.editText?.text.toString().trim { it <= ' ' })
-
         outState.putInt(C.category, category?.selectedItemPosition ?: 0)
         outState.putInt(C.type, type?.selectedItemPosition ?: 0)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        Log.e("onRestore", "restore")
+        Log.e("Bundle", "restore")
         if (savedInstanceState != null) {
             etdStateCode?.editText?.setText(savedInstanceState.getString(C.STATE_CODE))
             etdState?.editText?.setText(savedInstanceState.getString(C.stateName))
@@ -171,7 +172,6 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
             etdAssessorPhone?.editText?.setText(savedInstanceState.getString(C.ASSESSOR_PHONE))
             etdZone?.editText?.setText(savedInstanceState.getString(C.zone))
             etdWard?.editText?.setText(savedInstanceState.getString(C.ward))
-
             category?.setSelection(savedInstanceState.getInt(C.category))
             type?.setSelection(savedInstanceState.getInt(C.type))
         }
@@ -233,7 +233,7 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
                 failureCounter++
                 editText?.error = "Invalid Mobile Number"
             }
-            else -> editText?.error = null
+            else -> editText?.error = ""
         }
     }
 
@@ -244,7 +244,7 @@ class GlobalDetailsFragment : Fragment(), View.OnClickListener, AdapterView.OnIt
             failureCounter++
             layout?.error = "Field can not be empty"
         } else {
-            layout?.error = null
+            layout?.error = ""
         }
     }
 

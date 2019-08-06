@@ -439,7 +439,7 @@ class CityAdminForm : AppCompatActivity(), View.OnClickListener,gov.mohua.gtl.lo
 
     override fun onStop() {
         super.onStop()
-        locationAPI?.onStop()
+        locationAPI.onStop()
         ToiletLocatorApp.instance?.getRequestQueue()?.cancelAll("Image")
     }
 }

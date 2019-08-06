@@ -2,5 +2,5 @@
 <paths>
     <external-path
         name="my_images"
-        path="Android/data/com.ipssi.toiletdata/files/Pictures" />
+        path="Android/data/gov.mohua.gtl/files/Pictures" />
 </paths>

@@ -127,7 +127,6 @@ class CityAdminActivity : AppCompatActivity() {
             val intent = Intent(this@CityAdminActivity, ShowCityAdminData::class.java)
             intent.putExtra(C.SELECTED_WARD_ID,selectedWardId)
             startActivity(intent)
-//            Toast.makeText(this, "Oops! Something went wrong", Toast.LENGTH_SHORT).show()
         }else if(item?.itemId == R.id.menu_user_manual){
             val role = locator.getString(C.ROLE, "")
             var url = ""
@@ -155,13 +154,7 @@ class CityAdminActivity : AppCompatActivity() {
     }
 
     fun onClick(v: View) {
-//        if (ward_list.selectedItemPosition > 0) {
-
         getGVPId()
-
-//        } else {
-//            Toast.makeText(this, "Please Select ward", Toast.LENGTH_SHORT).show()
-//        }
     }
 
 

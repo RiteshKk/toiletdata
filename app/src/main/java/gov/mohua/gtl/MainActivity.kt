@@ -1,7 +1,6 @@
 package gov.mohua.gtl
 
 import android.app.Activity
-import android.app.ListActivity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -24,6 +23,7 @@ import gov.mohua.gtl.model.ToiletData
 import gov.mohua.gtl.view.ctpt.CTPTList
 import gov.mohua.gtl.view.gtl.GlobalDetailsFragment
 import gov.mohua.gtl.view.gtl.ImageFragment
+import gov.mohua.gtl.view.gtl.ListActivity
 import gov.mohua.gtl.view.gtl.LocalDetailsFragment
 import gov.mohua.gtl.view.gvpCityAdmin.CityAdminActivity
 import gov.mohua.gtl.view.validation.LoginFragment
@@ -191,7 +191,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
                 val bundle = Bundle()
                 bundle.putParcelable(C.DATA_TAG, toiletData)
-                loginFragment?.arguments = bundle
+                loginFragment.arguments= bundle
                 supportFragmentManager
                         .beginTransaction()
                         .addToBackStack("")
