@@ -19,7 +19,6 @@ import android.widget.AdapterView
 import android.widget.TextView
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
-import com.crashlytics.android.Crashlytics
 import gov.mohua.gtl.R
 import gov.mohua.gtl.ToiletLocatorApp
 import gov.mohua.gtl.model.C
@@ -170,7 +169,6 @@ class CityAdminActivity : AppCompatActivity() {
         val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener {response ->
             progressDialog.dismiss()
-            Crashlytics.log("gvp access->response : " + response.toString())
             Log.e("response", response.toString())
             val code = response.getString("code")
             if (code.equals("200")) {

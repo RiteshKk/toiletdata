@@ -11,7 +11,6 @@ import com.google.firebase.analytics.FirebaseAnalytics
 class ToiletLocatorApp : Application() {
 
     private var mRequestQueue: RequestQueue? = null
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
 
     fun getRequestQueue(): RequestQueue? {
         if (mRequestQueue == null) {
@@ -30,7 +29,6 @@ class ToiletLocatorApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
         instance = this
     }
 

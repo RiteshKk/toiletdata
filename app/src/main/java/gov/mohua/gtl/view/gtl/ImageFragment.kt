@@ -35,7 +35,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
-import com.crashlytics.android.Crashlytics
 import gov.mohua.gtl.R
 import gov.mohua.gtl.ToiletLocatorApp
 import gov.mohua.gtl.events.OnFragmentInteractionListener
@@ -314,11 +313,9 @@ class ImageFragment : Fragment(), View.OnClickListener,gov.mohua.gtl.location.On
         Log.e("JSON REQUEST", params.toString())
         val requestQueue = ToiletLocatorApp.instance?.getRequestQueue()
         val URL = "http://sbmtoilet.org/backend/web/index.php?r=api/user/save"
-        Crashlytics.log(1, "post param", params.toString() + "")
         val request = JsonObjectRequest(Request.Method.POST, URL, params,
                 Response.Listener { response ->
                     progressDialog?.dismiss()
-                    Crashlytics.log("ImageFragment->response : " + response.toString())
                     Log.e("image response", response.toString())
                     if (response.toString().length > 10) {
                         val builder = android.support.v7.app.AlertDialog.Builder(activity!!)

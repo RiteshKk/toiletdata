@@ -45,35 +45,11 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
-class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.location.OnLocationChangeCallBack, SensorEventListener {
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-
-    }
+class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.location.OnLocationChangeCallBack {
 
     private var isStopped: Boolean = false
     var currentDegree = 0f
 
-    override fun onSensorChanged(event: SensorEvent?) {
-        val degree = Math.round(event!!.values[0]).toFloat()
-        // create a rotation animation (reverse turn degree degrees)
-        val ra = RotateAnimation(
-                currentDegree,
-                -degree,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF,
-                0.5f);
-
-        // how long the animation will take place
-        ra.setDuration(210);
-
-        // set the animation after the end of the reservation status
-        ra.setFillAfter(true);
-
-        // Start the animation
-        direction_text.setText(degree.toInt().toString() + Html.fromHtml(getString(R.string.degree)))
-        compass.startAnimation(ra);
-        currentDegree = -degree;
-    }
 
     var lat = 0.0
     var lng = 0.0
@@ -111,36 +87,15 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
             downloadData(getDirectionsUrl(LatLng(loc?.latitude, loc?.longitude), destination))
     }
 
-
-    fun setCompass() {
-        sensorManager.registerListener(this as SensorEventListener,
-                sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-                SensorManager.SENSOR_DELAY_GAME)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setCompass()
-    }
-
-
-
-    override fun onPause() {
-        super.onPause()
-        sensorManager.unregisterListener(this as SensorEventListener)
-    }
-
     private lateinit var mMap: GoogleMap
 
     private lateinit var locationAPI:gov.mohua.gtl.location.LocationAPI
 
-    private lateinit var sensorManager: SensorManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         locationAPI =gov.mohua.gtl.location.LocationAPI(this,this)
         lat = intent.getDoubleExtra("lat", 0.0);
         lng = intent.getDoubleExtra("lng", 0.0);

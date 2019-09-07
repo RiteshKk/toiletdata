@@ -16,7 +16,6 @@ import android.view.MenuItem
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.crashlytics.android.Crashlytics
 import gov.mohua.gtl.events.OnFragmentInteractionListener
 import gov.mohua.gtl.model.C
 import gov.mohua.gtl.model.ToiletData
@@ -115,7 +114,6 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
         toiletData?.stateName = locator?.getString(C.stateName, "")
         toiletData?.stateId = locator?.getInt("stateId", 0) ?: 0
         toiletData?.stateCode = locator?.getInt("stateCode", 0) ?: 0
-        Crashlytics.setUserIdentifier(locator?.getString(C.MOBILE, ""))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

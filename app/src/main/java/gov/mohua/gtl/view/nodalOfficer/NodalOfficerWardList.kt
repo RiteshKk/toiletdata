@@ -31,7 +31,6 @@ import android.widget.EditText
 import android.widget.TextView
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
-import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
 import gov.mohua.gtl.R
 import gov.mohua.gtl.ToiletLocatorApp
@@ -64,12 +63,11 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
         params.put("image", viewData?.imageString)
         params.put("comment", viewData?.nodalOfficerComment)
 
-        Crashlytics.log(1, "post param", params.toString() + "")
+
         val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener { response ->
             progressDialog.dismiss()
 
-            Crashlytics.log("nodal officer->response : " + response.toString())
             Log.e("response", response.toString())
             if (response.toString().length > 5) {
 
@@ -249,7 +247,6 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
         var volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
         var jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener { response ->
             progressDialog.dismiss()
-            Crashlytics.log("gvp access->response : " + response.toString())
             Log.e("response", response.toString())
             val code = response.getString("code")
             if (code.equals("200")) {
@@ -433,12 +430,10 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
         params.put("state_id", (preference?.getInt("stateId", 0)).toString())
         params.put("city_id", (preference?.getInt("cityId", 0)).toString())
         params.put("ward", "${intent.getIntExtra(C.SELECTED_WARD_ID, 0)}")
-        Crashlytics.log(1, "post param", params.toString() + "")
         val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener { response ->
             progressDialog.dismiss()
 
-            Crashlytics.log("nodal officer->response : " + response.toString())
             Log.e("response", response.toString())
             if (response.toString().length > 5) {
                 dataList = Gson().fromJson(response.toString(), gov.mohua.gtl.view.nodalOfficer.model.NodalDataList::class.java)

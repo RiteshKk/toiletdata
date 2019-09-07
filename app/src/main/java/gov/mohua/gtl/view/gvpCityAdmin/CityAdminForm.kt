@@ -37,7 +37,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
-import com.crashlytics.android.Crashlytics
 import gov.mohua.gtl.R
 import gov.mohua.gtl.ToiletLocatorApp
 import gov.mohua.gtl.model.C
@@ -116,11 +115,9 @@ class CityAdminForm : AppCompatActivity(), View.OnClickListener,gov.mohua.gtl.lo
                 Log.e("upload exception", e.message)
             }
             val URL = "http://sbmtoilet.org/backend/web/index.php?r=api/user/gvp-admin-post-data"
-            Crashlytics.log(1, "post param", params.toString() + "")
             val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
             val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener { response ->
                 progressDialog.dismiss()
-                Crashlytics.log("city admin form->response : " + response.toString())
                 Log.e("response", response.toString())
                 val statusCode = response.getString("status")
                 val builder = android.support.v7.app.AlertDialog.Builder(this)
@@ -390,24 +387,6 @@ class CityAdminForm : AppCompatActivity(), View.OnClickListener,gov.mohua.gtl.lo
                     startActivity(intent)
                 })
             }
-//        }else if(requestCode == 103){
-//            if (grantResults.size <= 0) {
-//            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
-//            } else {
-//                Log.e("TAG", "Permission denied")
-//                showSnackbar(R.string.permission_denied_explanation,
-//                        R.string.settings, View.OnClickListener {
-//                    // Build intent that displays the App settings screen.
-//                    val intent = Intent()
-//                    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-//                    val uri = Uri.fromParts("package",
-//                            BuildConfig.APPLICATION_ID, null)
-//                    intent.data = uri
-//                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                    startActivity(intent)
-//                })
-//            }
         }
     }
 

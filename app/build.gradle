@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     dataBinding {
@@ -24,8 +23,8 @@ android {
         applicationId "gov.mohua.gtl"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 11
-        versionName "1.27"
+        versionCode 16
+        versionName "1.28"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -52,7 +51,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.google.firebase:firebase-core:16.0.7'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.greenrobot:eventbus:3.1.1'
     kapt 'com.android.databinding:compiler:3.1.4'

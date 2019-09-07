@@ -11,7 +11,6 @@ import android.view.MenuItem
 import android.view.View
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
-import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import gov.mohua.gtl.R
@@ -57,11 +56,9 @@ class NodalOfficerDetails : AppCompatActivity() {
         params.put("city_id", viewData?.city_id)
         params.put("ward", viewData?.ward_id)
         params.put("gvp_id", viewData?.gvp_id)
-        Crashlytics.log(1, "post param", params.toString() + "")
         val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
         val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, params, Response.Listener { response ->
             progressDialog.dismiss()
-            Crashlytics.log("nodal officer->response : " + response.toString())
             Log.e("response", response.toString())
             if (response.toString().length > 5) {
                 dataList = Gson().fromJson(response.toString(), gov.mohua.gtl.view.nodalOfficer.model.NodalDataList::class.java)
