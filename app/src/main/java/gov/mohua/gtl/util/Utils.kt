@@ -8,6 +8,10 @@ import android.graphics.*
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 object Utils {
 
@@ -148,5 +152,19 @@ object Utils {
     fun getCurrentFormattedDateTime(format: String): String {
         val dateFormatter = SimpleDateFormat(format, Locale.US)
         return dateFormatter.format(Date())
+    }
+
+    fun distance(lat_a: Double, lng_a: Double, lat_b: Double, lng_b: Double): Float {
+        val earthRadius = 3958.75
+        val latDiff = Math.toRadians((lat_b - lat_a))
+        val lngDiff = Math.toRadians((lng_b - lng_a))
+        val a = sin(latDiff / 2) * sin(latDiff / 2) + cos(Math.toRadians(lat_a)) * cos(Math.toRadians(lat_b)) *
+            sin(lngDiff / 2) * sin(lngDiff / 2)
+        val c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        val distance = earthRadius * c
+
+        val meterConversion = 1609
+
+        return (distance * meterConversion).toFloat()
     }
 }

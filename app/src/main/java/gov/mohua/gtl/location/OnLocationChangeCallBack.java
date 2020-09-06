@@ -3,7 +3,7 @@ package gov.mohua.gtl.location;
 import android.location.Location;
 
 /**
- * Created by ipssi-mac on 12/9/16.
+ * Created by ritesh on 12/8/21.
  */
 
 public interface OnLocationChangeCallBack {

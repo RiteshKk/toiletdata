@@ -50,6 +50,11 @@
         <activity
             android:name=".view.nodalOfficer.RouteFinder"
             android:label="@string/title_activity_route_finder" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -64,11 +69,10 @@
         <activity
             android:name="gov.mohua.gtl.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name="gov.mohua.gtl.view.gtl.DetailsActivity"

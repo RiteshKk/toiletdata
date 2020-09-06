@@ -19,14 +19,6 @@ class ToiletLocatorApp : Application() {
         return mRequestQueue
     }
 
-//    val requestQueue: RequestQueue
-//        get() {
-//            if (mRequestQueue == null) {
-//                mRequestQueue = Volley.newRequestQueue(applicationContext)
-//            }
-//            return mRequestQueue
-//        }
-
     override fun onCreate() {
         super.onCreate()
         instance = this

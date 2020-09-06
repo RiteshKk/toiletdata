@@ -49,10 +49,10 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
     var position: Int = 0
 
     override fun onUploadButtonClicked(data: gov.mohua.gtl.model.ViewData?) {
-        val URL = "http://sbmtoilet.org/backend/web/index.php?r=api/user/save-current-day-image"
+        val url = "http://sbmtoilet.org/backend/web/index.php?r=api/user/save-current-day-image"
         val params = JSONObject()
         progressDialog.show()
-        val preference = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE)
+//        val preference = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE)
         params.put("mobile_no", dataList?.user_details?.mobile_no)
         params.put("role", dataList?.user_details?.role)
         params.put("state_id", viewData?.state_id)
@@ -65,13 +65,13 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
 
 
         val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener { response ->
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, params, Response.Listener { response ->
             progressDialog.dismiss()
 
             Log.e("response", response.toString())
             if (response.toString().length > 5) {
 
-                val status = response.optInt("status")
+//                val status = response.optInt("status")
                 val message = response.optString("message")
                 Snackbar.make(parent_container, message, Snackbar.LENGTH_SHORT).show()
             }
@@ -106,10 +106,10 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
 
         latitude = loc?.latitude
         longitude = loc?.longitude
-        val imageLocation: Location = Location("fused")
+        val imageLocation = Location("fused")
         imageLocation.latitude = viewData?.latitude ?: 0.0
         imageLocation.longitude = viewData?.longitude ?: 0.0
-        if (loc?.distanceTo(imageLocation)!! <= 10f) {
+        if (Utils.distance(loc?.latitude ?: 0.0,loc?.longitude ?: 0.0,imageLocation.latitude,imageLocation.longitude) <= 30f) {
             dispatchTakePictureIntent()
         } else {
             val intent = Intent(this, RouteFinder::class.java)
@@ -137,7 +137,7 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
         }
     }
 
-    val REQUEST_TAKE_PHOTO = 1
+    private val REQUEST_TAKE_PHOTO = 1
 
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
@@ -176,7 +176,7 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
                 ".jpg", /* suffix */
@@ -191,8 +191,8 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
 
     private fun setPic() {
         // Get the dimensions of the View
-        val targetW: Int = 500
-        val targetH: Int = 500
+        val targetW = 1000
+        val targetH = 1000
 
         val bmOptions = BitmapFactory.Options().apply {
             // Get the dimensions of the bitmap
@@ -222,7 +222,7 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
                 viewData?.imageString = imageToString
                 viewData?.nodal_clicked_img = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
-                openCommentBox();
+                openCommentBox()
 
             }
         } else {
@@ -233,10 +233,10 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
 
     private var gvpId: String? = null
 
-    fun getGVPId() {
+    private fun getGVPId() {
         progressDialog.show()
         val params = JSONObject()
-        val preference = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE)
+//        val preference = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE)
         params.put("mobile_no", dataList?.user_details?.mobile_no)
         params.put("role", dataList?.user_details?.role)
         params.put("state_id", viewData?.state_id)
@@ -244,12 +244,12 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
         params.put("ward", viewData?.ward_id)
         params.put("gvp_id", viewData?.gvp_id)
         val URL = "http://sbmtoilet.org/backend/web/index.php?r=api/user/gvp-id-request"
-        var volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
-        var jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener { response ->
+        val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener { response ->
             progressDialog.dismiss()
             Log.e("response", response.toString())
             val code = response.getString("code")
-            if (code.equals("200")) {
+            if (code.equals("200",true)) {
                 gvpId = response.getString("gvp_id")
             }
 
@@ -276,7 +276,6 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
             }
         })
         volleyRequest?.add(jsonObjectRequest)
-
     }
 
 
@@ -285,7 +284,7 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
     private fun openCommentBox() {
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle("Enter Comment")
-        val view = getLayoutInflater().inflate(R.layout.comment_view, null, false)
+        val view = layoutInflater.inflate(R.layout.comment_view, null, false)
         alertDialog.setView(view)
         val saveBtn = view.findViewById<TextView>(R.id.btn_save)
         val etView = view.findViewById<EditText>(R.id.et_comment)
@@ -370,7 +369,7 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
     @RequiresApi(Build.VERSION_CODES.M)
     fun requestPermissions() {
         val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        val shouldCameraRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
+//        val shouldCameraRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
 
         if (shouldProvideRationale) {
             showSnackbar(R.string.permission_rationale,
@@ -403,8 +402,8 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         locationAPI =gov.mohua.gtl.location.LocationAPI(this,this)
         progressDialog = ProgressDialog(this)
-        progressDialog?.setMessage("Please wait...")
-        progressDialog?.setCancelable(false)
+        progressDialog.setMessage("Please wait...")
+        progressDialog.setCancelable(false)
 
         adapter = NodalOfficerWardDetailsAdapter()
         recycler_view.adapter = adapter
@@ -421,7 +420,7 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
     private var dataList: gov.mohua.gtl.view.nodalOfficer.model.NodalDataList? = null
 
     private fun fetchList() {
-        val URL = "http://sbmtoilet.org/backend/web/index.php?r=api/user/gvp-view-data"
+        val url = "http://sbmtoilet.org/backend/web/index.php?r=api/user/gvp-view-data"
         val params = JSONObject()
         progressDialog.show()
         val preference = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE)
@@ -431,7 +430,7 @@ class NodalOfficerWardList : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureB
         params.put("city_id", (preference?.getInt("cityId", 0)).toString())
         params.put("ward", "${intent.getIntExtra(C.SELECTED_WARD_ID, 0)}")
         val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, URL, params, Response.Listener { response ->
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.POST, url, params, Response.Listener { response ->
             progressDialog.dismiss()
 
             Log.e("response", response.toString())

@@ -65,7 +65,7 @@ class ShowCityAdminData : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureButt
     }
 
 
-    fun fetchData(wardId:Int) {
+    private fun fetchData(wardId:Int) {
         progressDialog.show()
         val preferences = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE)
         val mobile = preferences.getString(C.MOBILE, "")
@@ -100,7 +100,7 @@ class ShowCityAdminData : AppCompatActivity(),gov.mohua.gtl.events.OnCaptureButt
 
     fun setDeletedItem(data:gov.mohua.gtl.model.ViewData) {
 
-        val progressDialog = ProgressDialog(this);
+        val progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Please wait...")
 
         val preferences = getSharedPreferences(C.PREF_NAME, Context.MODE_PRIVATE);

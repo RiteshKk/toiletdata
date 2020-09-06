@@ -94,7 +94,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
                 progressDialog?.dismiss()
                 Snackbar.make(view!!, status, Snackbar.LENGTH_LONG).show()
                 val role = response.getString(C.ROLE)
-                if (status.equals("Logged in successfully.")) {
+                if (status.equals("Logged in successfully.",ignoreCase = true)) {
 
                     val stateDetails = response.optJSONObject("state_details")
                     val stateId = stateDetails.optInt("id")
@@ -123,16 +123,12 @@ class LoginFragment : Fragment(), View.OnClickListener {
                             .putBoolean("isLoggedIn", true)
                             .putString(C.ROLE, role)
                             .apply()
-                    if (role.equals(C.CTPT, true)) {
-                        mListener?.onFragmentInteraction(C.CTPT)
-                    } else if (role.equals(C.THIRD_PARTY, true)) {
-                        mListener?.onFragmentInteraction(C.THIRD_PARTY)
-                    } else if (role.equals(C.ULB, true)) {
-                        mListener?.onFragmentInteraction("1")
-                    } else if (role.equals(C.GVP_ADMIN, ignoreCase = true)) {
-                        mListener?.onFragmentInteraction(C.GVP_ADMIN)
-                    }else if(role.equals(C.NODAL_OFFICER,true)){
-                        mListener?.onFragmentInteraction(C.NODAL_OFFICER)
+                    when {
+                        role.equals(C.CTPT, true) -> mListener?.onFragmentInteraction(C.CTPT)
+                        role.equals(C.THIRD_PARTY, true) -> mListener?.onFragmentInteraction(C.THIRD_PARTY)
+                        role.equals(C.ULB, true) -> mListener?.onFragmentInteraction("1")
+                        role.equals(C.GVP_ADMIN, ignoreCase = true) -> mListener?.onFragmentInteraction(C.GVP_ADMIN)
+                        role.equals(C.NODAL_OFFICER,true) -> mListener?.onFragmentInteraction(C.NODAL_OFFICER)
                     }
                 }
             } catch (e: JSONException) {

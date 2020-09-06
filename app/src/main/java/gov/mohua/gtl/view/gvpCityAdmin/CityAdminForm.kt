@@ -71,7 +71,7 @@ class CityAdminForm : AppCompatActivity(), View.OnClickListener,gov.mohua.gtl.lo
             }
         } else if (v?.id == R.id.removeImage) {
             val file = File(currentPhotoPath)
-            if (file != null && file.exists()) {
+            if (file.exists()) {
                 file.delete()
             }
             image.setBackgroundColor(resources.getColor(android.R.color.darker_gray))
@@ -299,7 +299,7 @@ class CityAdminForm : AppCompatActivity(), View.OnClickListener,gov.mohua.gtl.lo
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
                 ".jpg", /* suffix */

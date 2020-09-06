@@ -2,13 +2,8 @@ package gov.mohua.gtl.view.nodalOfficer
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.location.Location
 import android.net.Uri
 import android.os.AsyncTask
@@ -25,8 +20,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
@@ -38,6 +31,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import gov.mohua.gtl.R
 import gov.mohua.gtl.ToiletLocatorApp
+import gov.mohua.gtl.util.Utils
 import kotlinx.android.synthetic.main.activity_city_admin_form.*
 import kotlinx.android.synthetic.main.activity_maps.*
 import org.json.JSONArray
@@ -48,7 +42,7 @@ import java.util.*
 class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.location.OnLocationChangeCallBack {
 
     private var isStopped: Boolean = false
-    var currentDegree = 0f
+//    var currentDegree = 0f
 
 
     var lat = 0.0
@@ -58,33 +52,34 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
         sourceMarker?.remove()
         // First, get an instance of the SensorManager
 
-        sourceMarker = mMap.addMarker(MarkerOptions().title("You are Here").icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker)).position(LatLng(loc!!.latitude, loc?.longitude)))
-        val builder = LatLngBounds.Builder();
+        sourceMarker = mMap.addMarker(MarkerOptions().title("You are Here").icon(BitmapDescriptorFactory.fromResource(R.mipmap.marker)).position(LatLng(loc!!.latitude, loc.longitude)))
+        val builder = LatLngBounds.Builder()
 
 //the include method will calculate the min and max bound.
-        builder.include(destinationMarker?.getPosition());
-        builder.include(sourceMarker?.getPosition());
+        builder.include(destinationMarker?.position)
+        builder.include(sourceMarker?.position)
 
 
-        val bounds = builder.build();
+        val bounds = builder.build()
 
-        val width = getResources().getDisplayMetrics().widthPixels;
-        val height = getResources().getDisplayMetrics().heightPixels;
-        val padding = (height * 0.20).toInt(); // offset from edges of the map 10% of screen
-        val cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
-        mMap.animateCamera(cu);
+        val width = resources.displayMetrics.widthPixels
+        val height = resources.displayMetrics.heightPixels
+
+        val padding = (height * 0.20).toInt() // offset from edges of the map 10% of screen
+        val cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding)
+        mMap.animateCamera(cu)
 
 
-        val imageLocation: Location = Location("fused")
+        val imageLocation = Location("fused")
         imageLocation.latitude = lat
         imageLocation.longitude = lng
-        if (loc?.distanceTo(imageLocation)!! <= 10f) {
+        if (Utils.distance(loc.latitude,loc.longitude,imageLocation.latitude,imageLocation.longitude) <= 30f) {
             setResult(Activity.RESULT_OK)
             locationAPI.onStop()
             finish()
         }
         if (TextUtils.isEmpty(parseStatus) || parseStatus.equals("completed", true) || parseStatus.equals("failed", true))
-            downloadData(getDirectionsUrl(LatLng(loc?.latitude, loc?.longitude), destination))
+            downloadData(getDirectionsUrl(LatLng(loc.latitude, loc.longitude), destination))
     }
 
     private lateinit var mMap: GoogleMap
@@ -97,8 +92,8 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
         setContentView(R.layout.activity_maps)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         locationAPI =gov.mohua.gtl.location.LocationAPI(this,this)
-        lat = intent.getDoubleExtra("lat", 0.0);
-        lng = intent.getDoubleExtra("lng", 0.0);
+        lat = intent.getDoubleExtra("lat", 0.0)
+        lng = intent.getDoubleExtra("lng", 0.0)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
@@ -127,12 +122,12 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+            mMap = googleMap
 
-        mMap.isMyLocationEnabled = true
+//        mMap.isMyLocationEnabled = true
 
-        mMap.uiSettings.isMyLocationButtonEnabled = true
-        mMap.uiSettings.isCompassEnabled = true
+            mMap.uiSettings.isMyLocationButtonEnabled = true
+            mMap.uiSettings.isCompassEnabled = true
 
 
         destination = LatLng(lat, lng)
@@ -165,7 +160,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
         locationAPI.onStart()
     }
 
-    fun downloadData(url: String) {
+    private fun downloadData(url: String) {
 
         val volleyRequest = ToiletLocatorApp.instance?.getRequestQueue()
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null, Response.Listener { response ->
@@ -174,6 +169,9 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
             if (TextUtils.isEmpty(optString)) {
 
                 val parserTask = ParserTask()
+                Log.e("Json Data Start","-----------------------------------------------")
+                Log.e("jsonData",response.toString())
+                Log.e("Json Data End","-----------------------------------------------")
                 parserTask.execute(response.toString())
             }
         }, Response.ErrorListener { error ->
@@ -195,9 +193,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
 
             try {
                 jObject = JSONObject(jsonData[0])
-                Log.e("response", jObject.toString());
                 val parser = DataParser()
-//
                 routes = parser.parse(jObject)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -207,9 +203,9 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
         }
 
         override fun onPostExecute(result: List<List<HashMap<String, String>>>) {
-            var points: ArrayList<LatLng>? = null
+            var points: ArrayList<LatLng>?
             var lineOptions: PolylineOptions? = null
-            val markerOptions = MarkerOptions()
+           // val markerOptions = MarkerOptions()
 
             for (i in result.indices) {
                 points = ArrayList()
@@ -220,14 +216,14 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
                 for (j in path.indices) {
                     val point = path[j]
 
-                    val lat = point.get("lat")?.toDouble() ?: 0.0
-                    val lng = point.get("lng")?.toDouble() ?: 0.0
+                    val lat = point["lat"]?.toDouble() ?: 0.0
+                    val lng = point["lng"]?.toDouble() ?: 0.0
                     val position = LatLng(lat, lng)
 
-                    points!!.add(position)
+                    points.add(position)
                 }
 
-                lineOptions.addAll(points!!)
+                lineOptions.addAll(points)
                 lineOptions.width(12f)
                 lineOptions.color(resources.getColor(R.color.colorPrimaryDark))
                 lineOptions.geodesic(true)
@@ -237,7 +233,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
             // Drawing polyline in the Google Map for the i-th route
             mMap.addPolyline(lineOptions)
             if (!isMessageShow) {
-                isMessageShow = true;
+                isMessageShow = true
                 Snackbar.make(map.view!!, "Oops! it seems you are away from GVP. Please reach at right GVP location", Snackbar.LENGTH_INDEFINITE).show()
             }
         }
@@ -247,14 +243,15 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
     private fun getDirectionsUrl(origin: LatLng, dest: LatLng): String {
 
         // Origin of route
-        val str_origin = "origin=" + origin.latitude + "," + origin.longitude
+        val strOrigin = "origin=" + origin.latitude + "," + origin.longitude
         // Destination of route
-        val str_dest = "destination=" + dest.latitude + "," + dest.longitude
+        val strDest = "destination=" + dest.latitude + "," + dest.longitude
         // Sensor enabled
         val sensor = "sensor=true"
         val mode = "mode=Bicycling"
         // Building the parameters to the web service
-        val parameters = "$str_origin&$str_dest&$sensor&$mode"
+        val parameters = "$strOrigin&$strDest&$sensor&$mode"
+//        val parameters = "origin=25.4491,81.8391&destination=25.4469,81.8513&sensor=true&mode=Bicycling"
         // Output format
         val output = "json"
         // Building the url to the web service
@@ -289,19 +286,18 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
                                 val distance = ((jSteps.get(k) as JSONObject).get("distance") as JSONObject).getString("text")
                                 runOnUiThread {
                                     if (!isStopped)
-                                        Toast.makeText(this@RouteFinder, Html.fromHtml(distance + " " + s), Toast.LENGTH_LONG).show()
+                                        Toast.makeText(this@RouteFinder, Html.fromHtml("$distance $s"), Toast.LENGTH_LONG).show()
                                 }
                             }
-                            var polyline = ""
-                            polyline =
+                            val polyline: String =
                                     ((jSteps.get(k) as JSONObject).get("polyline") as JSONObject).get("points") as String
                             val list = decodePoly(polyline)
 
                             /** Traversing all points  */
                             for (l in list.indices) {
                                 val hm = HashMap<String, String>()
-                                hm.put("lat", java.lang.Double.toString(list[l].latitude))
-                                hm.put("lng", java.lang.Double.toString(list[l].longitude))
+                                hm["lat"] = list[l].latitude.toString()
+                                hm["lng"] = list[l].longitude.toString()
                                 path.add(hm)
                             }
                         }
@@ -366,7 +362,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
     }
 
 
-    val REQUEST_TAKE_PHOTO = 1
+//    val REQUEST_TAKE_PHOTO = 1
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 101 && resultCode == Activity.RESULT_CANCELED) {
@@ -380,7 +376,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 102) {
-            if (grantResults.size <= 0) {
+            if (grantResults.isEmpty()) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     requestPermissions()
                 }
@@ -406,7 +402,7 @@ class RouteFinder : AppCompatActivity(), OnMapReadyCallback,gov.mohua.gtl.locati
     @RequiresApi(Build.VERSION_CODES.M)
     fun requestPermissions() {
         val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)
-        val shouldCameraRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
+//        val shouldCameraRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)
 
         if (shouldProvideRationale) {
             showSnackbar(R.string.permission_rationale,
